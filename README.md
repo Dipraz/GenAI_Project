@@ -32,7 +32,7 @@ Use code with caution. Learn more
 Access the app in your web browser, typically at http://localhost:8501/
 ## Requirements:
 
-Python 3.7 or later
+Python 3.10 or later
 Libraries: Streamlit, google-generativeai, Pillow
 Google API key with Gemini access
 ## Disclaimer:
