@@ -7,8 +7,6 @@ import os
 load_dotenv()  # Take environment variables from .env.
 genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
 
-chat = None  # Initialize chat object
-
 def get_gemini_response(input, image):
     model = genai.GenerativeModel('gemini-pro-vision')
     if input != "":
@@ -41,9 +39,9 @@ def start_gemini_chat(history=[]):
     return model.start_chat(history=history)
 
 def main():
-    global chat  # Access the global chat object
-    st.set_page_config(page_title="Gemini Image Demo", layout="wide")
+    chat = None  # Initialize chat object
     
+    st.set_page_config(page_title="Gemini Image Demo", layout="wide")
     st.title("AI Image Analysis")
     st.markdown("---")
 
@@ -72,14 +70,15 @@ def main():
                 else:
                     st.subheader("Analysis Result:")
                     st.write(response.text)  # Assuming .text attribute contains the generated text
-                    # Initialize or continue the chat after displaying the result
-                    chat = start_gemini_chat([response.text])
             else:
                 st.warning("Please select an analysis option.")
 
     with col2:
         st.markdown("---")
         st.header("Chat About the Results")
+        if chat is None:
+            chat = start_gemini_chat()  # Initialize chat if not done already
+
         if chat is not None:
             chat_input = st.text_input("Chat Input:", key="chat_input")
             send_message = st.button("Send")
@@ -93,7 +92,7 @@ def main():
                 else:
                     st.warning("Please input a message to chat.")
         else:
-            st.warning("Please analyze an image to start the chat.")
+            st.warning("Please wait... Initializing the chat.")
 
 if __name__ == "__main__":
     main()
