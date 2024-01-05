@@ -16,11 +16,11 @@ def get_gemini_response(input, image):
     return response.text
 
 def handle_button_click(prompt, image):
-    model = genai.GenerativeModel('gemini-pro-vision')
+    model = genai.GenerativeModel('gemini-pro')
     response = None  # Initialize response as None
 
     if prompt == "General Analysis":
-        response = model.generate_content(["Identify and describe everything you see in this image.", image])
+        response = model.generate_content(["Identify and describe everything and every words you see in this image.", image])
     elif prompt == "Disease Identification":
         response = model.generate_content(["Identify the disease or medical condition shown in the image, if any.", image])
     elif prompt == "Personalized Diet Plans Based on Bangladeshi Foods":
