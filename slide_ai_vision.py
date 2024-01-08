@@ -29,6 +29,7 @@ def get_gemini_response(input, images):
         logging.error(f"An error occurred: {str(e)}")
         return [f"An error occurred: {str(e)}"]
 
+
 # Define analysis options dictionary
 analysis_options = {
         "general analysis": "Identify and describe everything and every word you see in this image.",
@@ -65,7 +66,8 @@ def main():
     with col1:
         st.header("Choose an Analysis Option")
         input_prompt = st.selectbox("Select Analysis:", list(analysis_options.keys()))
-
+        input_text = st.text_input("Input Custom Prompt:", key="input", help="Enter a custom prompt for analysis.")
+        submit_custom = st.button("Analyze Custom Prompt", help="Click here to analyze the custom prompt")
         st.subheader("Upload Image(s)")
         upload_files = st.file_uploader("Upload Image(s):", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
 
@@ -89,6 +91,20 @@ def main():
                     st.write(response)
             else:
                 st.warning("Please select an analysis option and upload image(s).")
+        if submit_custom:
+            if input_text and images:
+                responses = get_gemini_response(input_text, images)  # Get responses for the images
+                st.subheader("Custom Analysis Result:")
+                for idx, response in enumerate(responses):
+                    # Convert each response to text and display it
+                    st.write(f"Response for Image {idx + 1}: {str(response)}")
+            else:
+                st.warning("Please enter a custom prompt and upload an image.")
+
+        else:
+            st.warning("Please enter a custom prompt and upload an image.")
+
+
 
     with col2:
         st.markdown("---")
