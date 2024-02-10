@@ -1,69 +1,71 @@
+from dotenv import load_dotenv
+
+load_dotenv()  # Take environment variables from .env.
+
 import streamlit as st
-import random  # Replace with your preferred LLM API
+import os
+import textwrap
 
-# App configuration
-st.set_page_config(page_title="UX Design Assistant")
-UX_DESIGN_PROMPT = "I am a friendly and knowledgeable UX design assistant trained on a massive dataset of articles and resources. I can answer your questions, provide summaries of articles, generate design ideas, and offer feedback on your designs."
+import google.generativeai as genai
 
-# Resources (optional)
-RESOURCES = {
-    "examples": "https://www.example.com/ux-design-examples",
-    "tutorials": "https://www.example.com/ux-design-tutorials",
-    "case_studies": "https://www.example.com/ux-design-case-studies",
-}
+from IPython.display import display
+from IPython.display import Markdown
 
-# App layout
-st.header("UX Design Assistant")
+# Add custom CSS for styling
+st.markdown(
+    """
+    <style>
+    /* Add custom CSS styles */
+    .streamlit-header {
+        background-color: #f0f6ff;
+        color: #205a96;
+        padding: 0.5rem 1rem;
+        border-radius: 12px;
+    }
+    .streamlit-button {
+        background-color: #205a96;
+        color: #ffffff;
+        border-radius: 8px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
-# User input options (text, voice, upload?)
-input_type = st.selectbox("Ask me about UX design:", ["Text", "Voice", "Upload"])
+# Function to load OpenAI model and get responses
+def get_gemini_response(question):
+    model = genai.GenerativeModel('gemini-pro')
 
-# Text input
-if input_type == "Text":
-    user_input = st.text_input("")
+    # Combine the prompt and question into a single string
+    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
 
-# Voice and upload (placeholders to implement)
-elif input_type == "Voice":
-    st.write("Voice input functionality not yet implemented.")
-    user_input = None
-elif input_type == "Upload":
-    st.write("File upload functionality not yet implemented.")
-    user_input = None
+    response = model.generate_content(full_input)  # Pass the combined input
+    return response.text
 
-# Submit button
-submit_button = st.button("Get Assistance")
+# Initialize Streamlit app
+st.set_page_config(
+    page_title="UX Design Assistant",
+    page_icon=":art:",
+    layout="wide"  # Use wide layout for better display
+)
 
-# Response area
-if submit_button and user_input:
-    with st.spinner("Thinking..."):
-        # Generate response using a placeholder API (replace with your actual API)
-        response = f"Here's a sample response based on your input: {user_input}. You can find more resources on UX design here: {RESOURCES['examples']}."
+# Add a header with title and icon
+st.title(":art: UX Design Assistant Powered by OpenAI")
 
-        # Response presentation
-        st.subheader("Here's my response:")
-        st.write(response)
+# Define UX design prompt
+UX_DESIGN_PROMPT = f"""You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."""
 
-        # Additional features (optional)
-        # - Visualizations based on data in response (e.g., using libraries like Plotly)
-        # - Interactive prototyping tools (e.g., Figma, Mockplus)
-        # - Resource recommendations from RESOURCES dict
-        # - Feedback form
+# Add text input for user to ask a question
+input_question = st.text_input("Ask me a question about UX design:", key="input_question")
 
-# Additional sections (optional)
-# - About the assistant
-# - User feedback & suggestions
+# Add button to submit question
+submit_button = st.button("Get Answer")
 
-# Function to generate response using your preferred LLM API (implement based on your API)
-def generate_llm_response(user_input):
-    # Add your LLM API call logic here, potentially incorporating the prompt
-    # and returning the generated response
-    return "Sample response..."
-
-# Placeholders for implementing voice and upload functionalities
-def implement_voice_input():
-    # Use libraries like speech_recognition, PyAudio for voice input
-    pass
-
-def implement_file_upload():
-    # Use libraries like streamlit_uploadedfile for file upload
-    pass
+# If the submit button is clicked
+if submit_button:
+    # Get response from Gemini model
+    response_text = get_gemini_response(input_question)
+    
+    # Display response
+    st.subheader("Here's my response:")
+    st.write(response_text)
