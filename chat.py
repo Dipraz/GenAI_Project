@@ -67,10 +67,3 @@ def implement_voice_input():
 def implement_file_upload():
     # Use libraries like streamlit_uploadedfile for file upload
     pass
-
-# Additional notes
-# - Replace API calls with your preferred LLM API (e.g., Bard, ChatGPT)
-# - Explore Streamlit documentation and community resources for advanced features
-# - Consider using design tools like Figma or Mockplus for prototyping features
-
-Remember, this is a starting point. Experiment, customize, and gradually add features as you learn and gain experience!
