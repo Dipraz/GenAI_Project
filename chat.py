@@ -11,25 +11,11 @@ import google.generativeai as genai
 from IPython.display import display
 from IPython.display import Markdown
 
-# Add custom CSS for styling
-st.markdown(
-    """
-    <style>
-    /* Add custom CSS styles */
-    .streamlit-header {
-        background-color: #f0f6ff;
-        color: #205a96;
-        padding: 0.5rem 1rem;
-        border-radius: 12px;
-    }
-    .streamlit-button {
-        background-color: #205a96;
-        color: #ffffff;
-        border-radius: 8px;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
+# Initialize Streamlit app and set page configuration
+st.set_page_config(
+    page_title="UX Design Assistant",
+    page_icon=":art:",
+    layout="wide"  # Use wide layout for better display
 )
 
 # Function to load OpenAI model and get responses
@@ -41,13 +27,6 @@ def get_gemini_response(question):
 
     response = model.generate_content(full_input)  # Pass the combined input
     return response.text
-
-# Initialize Streamlit app
-st.set_page_config(
-    page_title="UX Design Assistant",
-    page_icon=":art:",
-    layout="wide"  # Use wide layout for better display
-)
 
 # Add a header with title and icon
 st.title(":art: UX Design Assistant Powered by OpenAI")
