@@ -1,55 +1,76 @@
-# Q&A Chatbot
-#from langchain.llms import OpenAI
-
-from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-
 import streamlit as st
-import os
-import pathlib
-import textwrap
+import random  # Replace with your preferred LLM API
 
-import google.generativeai as genai
-
-from IPython.display import display
-from IPython.display import Markdown
-
-
-def to_markdown(text):
-    text = text.replace('•', ' *')
-    return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
-
-
-os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-
-UX_DESIGN_PROMPT = f"""You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."""
-
-
-## Function to load OpenAI model and get responses
-def get_gemini_response(question):
-    model = genai.GenerativeModel('gemini-pro')
-
-    # Combine the prompt and question into a single string
-    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
-
-    response = model.generate_content(full_input)  # Pass the combined input
-    return response.text
-
-
-## Initialize our streamlit app
+# App configuration
 st.set_page_config(page_title="UX Design Assistant")
+UX_DESIGN_PROMPT = "I am a friendly and knowledgeable UX design assistant trained on a massive dataset of articles and resources. I can answer your questions, provide summaries of articles, generate design ideas, and offer feedback on your designs."
 
-st.header("UX Design Assistant Powered by OpenAI")
+# Resources (optional)
+RESOURCES = {
+    "examples": "https://www.example.com/ux-design-examples",
+    "tutorials": "https://www.example.com/ux-design-tutorials",
+    "case_studies": "https://www.example.com/ux-design-case-studies",
+}
 
-input = st.text_input("Ask me a question about UX design: ", key="input")
+# App layout
+st.header("UX Design Assistant")
 
-submit = st.button("Get Answer")
+# User input options (text, voice, upload?)
+input_type = st.selectbox("Ask me about UX design:", ["Text", "Voice", "Upload"])
 
-## If ask button is clicked
-if submit:
+# Text input
+if input_type == "Text":
+    user_input = st.text_input("")
 
-    response = get_gemini_response(input)
-    st.subheader("Here's my response:")
-    st.write(response)
+# Voice and upload (placeholders to implement)
+elif input_type == "Voice":
+    st.write("Voice input functionality not yet implemented.")
+    user_input = None
+elif input_type == "Upload":
+    st.write("File upload functionality not yet implemented.")
+    user_input = None
+
+# Submit button
+submit_button = st.button("Get Assistance")
+
+# Response area
+if submit_button and user_input:
+    with st.spinner("Thinking..."):
+        # Generate response using a placeholder API (replace with your actual API)
+        response = f"Here's a sample response based on your input: {user_input}. You can find more resources on UX design here: {RESOURCES['examples']}."
+
+        # Response presentation
+        st.subheader("Here's my response:")
+        st.write(response)
+
+        # Additional features (optional)
+        # - Visualizations based on data in response (e.g., using libraries like Plotly)
+        # - Interactive prototyping tools (e.g., Figma, Mockplus)
+        # - Resource recommendations from RESOURCES dict
+        # - Feedback form
+
+# Additional sections (optional)
+# - About the assistant
+# - User feedback & suggestions
+
+# Function to generate response using your preferred LLM API (implement based on your API)
+def generate_llm_response(user_input):
+    # Add your LLM API call logic here, potentially incorporating the prompt
+    # and returning the generated response
+    return "Sample response..."
+
+# Placeholders for implementing voice and upload functionalities
+def implement_voice_input():
+    # Use libraries like speech_recognition, PyAudio for voice input
+    pass
+
+def implement_file_upload():
+    # Use libraries like streamlit_uploadedfile for file upload
+    pass
+
+# Additional notes
+# - Replace API calls with your preferred LLM API (e.g., Bard, ChatGPT)
+# - Explore Streamlit documentation and community resources for advanced features
+# - Consider using design tools like Figma or Mockplus for prototyping features
+
+Remember, this is a starting point. Experiment, customize, and gradually add features as you learn and gain experience!
