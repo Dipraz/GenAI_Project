@@ -5,6 +5,7 @@ load_dotenv()  # Take environment variables from .env.
 import streamlit as st
 import os
 import textwrap
+import time
 
 import google.generativeai as genai
 
@@ -25,7 +26,11 @@ def get_gemini_response(question):
     # Combine the prompt and question into a single string
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
 
-    response = model.generate_content(full_input)  # Pass the combined input
+    # Simulate model response time with loading indicator
+    with st.spinner("Generating response..."):
+        time.sleep(3)  # Simulate model response time
+        response = model.generate_content(full_input)  # Pass the combined input
+
     return response.text
 
 # Add a header with title and icon
@@ -48,3 +53,7 @@ if submit_button:
     # Display response
     st.subheader("Here's my response:")
     st.write(response_text)
+
+# Add dynamic loading button for interactive experience
+with st.expander("Click here for more options"):
+    st.write("You can explore more features and options here.")
