@@ -27,23 +27,23 @@ def get_gemini_response(question):
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
 
     # Simulate model response time with loading indicator
-    with st.spinner("Generating response..."):
+    with st.spinner("AI is typing..."):
         time.sleep(3)  # Simulate model response time
         response = model.generate_content(full_input)  # Pass the combined input
 
     return response.text
 
 # Add a header with title and icon
-st.title(":art: UX Design Assistant Powered by OpenAI")
+st.title(":robot: UX Design Assistant")
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = f"""You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."""
 
 # Add text input for user to ask a question
-input_question = st.text_input("Ask me a question about UX design:", key="input_question")
+input_question = st.text_input("You: ")
 
 # Add button to submit question
-submit_button = st.button("Get Answer")
+submit_button = st.button("Send")
 
 # If the submit button is clicked
 if submit_button:
@@ -51,9 +51,8 @@ if submit_button:
     response_text = get_gemini_response(input_question)
     
     # Display response
-    st.subheader("Here's my response:")
-    st.write(response_text)
+    st.write("AI:", response_text)
 
 # Add dynamic loading button for interactive experience
-with st.expander("Click here for more options"):
+with st.expander("More options"):
     st.write("You can explore more features and options here.")
