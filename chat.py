@@ -30,14 +30,18 @@ UX_DESIGN_PROMPT = f"""You are a friendly, kind, helpful, and highly knowledgeab
 ## Function to load OpenAI model and get responses
 def get_gemini_response(question):
     model = genai.GenerativeModel('gemini-pro')
-    response = model.generate_content(question, prompt=UX_DESIGN_PROMPT)  # Include the prompt here
+
+    # Combine the prompt and question into a single string
+    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
+
+    response = model.generate_content(full_input)  # Pass the combined input
     return response.text
 
 
 ## Initialize our streamlit app
 st.set_page_config(page_title="UX Design Assistant")
 
-st.header("UX Design Assistant Powered by Gemini")
+st.header("UX Design Assistant Powered by OpenAI")
 
 input = st.text_input("Ask me a question about UX design: ", key="input")
 
