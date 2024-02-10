@@ -34,7 +34,7 @@ def get_gemini_response(question):
     return response.text
 
 # Add a header with title and icon
-st.image("robot.jpg", caption="UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge.", width=600, height=300)
+st.image("robot.jpg", caption="UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge.", width=600)
 st.title("UX Design Assistant")
 # Define UX design prompt
 UX_DESIGN_PROMPT = f"""You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'."""
