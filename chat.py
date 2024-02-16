@@ -10,27 +10,27 @@ load_dotenv()
 
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
-    model = genai.GenerativeModel('gemini-pro')
-    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
-    with st.spinner("AI is typing..."):
-        time.sleep(3) # Simulate model response time
-        response = model.generate_content(full_input)
-    return response.text
+  model = genai.GenerativeModel('gemini-pro')
+  full_input = f"{UX_DESIGN_PROMPT}\n{question}"
+  with st.spinner("AI is typing..."):
+    time.sleep(3) # Simulate model response time
+    response = model.generate_content(full_input)
+  return response.text
 
 # Enhanced analyze_images function to include progress bar
-def analyze_images(images, prompt, model):
-    results = []
-    progress_bar = st.progress(0)
-    progress_step = 100 // len(images)  # Calculate progress increments
-    for i, image in enumerate(images):
-        response = model.generate_content([prompt, image])
-        results.append(response.text)
-        progress_bar.progress(progress_step * (i + 1))
-    return results
+def analyze_images(images, prompt):
+  results = []
+  progress_bar = st.progress(0)
+  progress_step = 100 // len(images)  # Corrected line
+  for i, image in enumerate(images):
+    with st.spinner(f"Analyzing image {i+1}..."): 
+      response = model.generate_content([prompt, image])
+      results.append(response.text)
+      progress_bar.progress(progress_step * (i + 1))
+  return results
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
-Based on your last response please change this streamlit_tooltip
 You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'.
 """
 
