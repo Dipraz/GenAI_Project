@@ -77,9 +77,9 @@ with st.expander("More options"):
             selected_prompt = analysis_options[input_prompt]
             # Combine the selected prompt with a custom prompt if provided
             if input:
-                prompt = selected_prompt + " " + input
+                prompt = str(selected_prompt) + " " + str(input) 
             else:
-                prompt = selected_prompt + " " + input
+                prompt = selected_prompt
             response = analyze_image(image, prompt)
             st.subheader("Analysis Result:")
             st.write(response)
