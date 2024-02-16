@@ -10,7 +10,7 @@ load_dotenv()
 
 # Define and initialize the model variable
 model = genai.GenerativeModel('gemini-pro')
-
+vision_model = genai.GenerativeModel('gemini-pro-vision')
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
@@ -26,7 +26,7 @@ def analyze_images(images, prompt):
     progress_step = 100 // len(images)  # Corrected line
     for i, image in enumerate(images):
         with st.spinner(f"Analyzing image {i+1}..."): 
-            response = model.generate_content([prompt, image])
+            response = vision_model.generate_content([prompt, image])
             results.append(response.text)
             progress_bar.progress(progress_step * (i + 1))
     return results
