@@ -75,9 +75,11 @@ with st.expander("More options"):
 
         if submit:
             selected_prompt = analysis_options[input_prompt]
+            # Add text input for custom prompt
+            input_text = st.text_input("Input Prompt:", key="input_prompt")
             # Combine the selected prompt with a custom prompt if provided
-            if input:
-                prompt = str(selected_prompt) + " " + str(input) 
+            if input_text:
+                prompt = selected_prompt + " " + input_text
             else:
                 prompt = selected_prompt
             response = analyze_image(image, prompt)
