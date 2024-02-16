@@ -73,7 +73,7 @@ with st.expander("More options"):
 
     if upload_files:
         images = [Image.open(image) for image in upload_files]
-        st.image(images, caption="Uploaded images", use_column_width=True)
+        st.image(images, width=300, caption=["Uploaded image"] * len(images), use_column_width=True)
         submit = st.button("Analyze Designs")
 
         if submit:
