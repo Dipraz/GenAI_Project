@@ -74,12 +74,15 @@ with st.expander("More options"):
     if upload_files:
         images = [Image.open(image) for image in upload_files]
         st.image(images, width=300, caption=["Uploaded image"] * len(images), use_column_width=True)
-        submit = st.button("Analyze Designs")
-
-        if submit:
+        
+        # Add text input for custom prompt
+        input_text = st.text_input("Input Prompt:", key="input_prompt")
+        
+        # Add button for custom prompt
+        analyze_button = st.button("Analyze Designs")
+        
+        if analyze_button:
             selected_prompt = analysis_options[input_prompt]
-            # Add text input for custom prompt
-            input_text = st.text_input("Input Prompt:", key="input_prompt")
             # Combine the selected prompt with a custom prompt if provided
             if input_text:
                 prompt = selected_prompt + " " + input_text
