@@ -7,30 +7,27 @@ import google.generativeai as genai
 
 # Load environment variables from .env file
 load_dotenv()
-model = None  # Define model at the global level
 
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
-    global model  # Access the global 'model' variable
-    if model is None:  # Load model only if not already loaded
-        model = genai.GenerativeModel('gemini-pro') 
+    model = genai.GenerativeModel('gemini-pro')
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
-  with st.spinner("AI is typing..."):
-    time.sleep(3) # Simulate model response time
-    response = model.generate_content(full_input)
-  return response.text
+    with st.spinner("AI is typing..."):
+        time.sleep(3) # Simulate model response time
+        response = model.generate_content(full_input)
+    return response.text
 
 # Enhanced analyze_images function to include progress bar
-def analyze_images(images, prompt):
-  results = []
-  progress_bar = st.progress(0)
-  progress_step = 100 // len(images)  # Corrected line
-  for i, image in enumerate(images):
-    with st.spinner(f"Analyzing image {i+1}..."): 
-      response = model.generate_content([prompt, image])
-      results.append(response.text)
-      progress_bar.progress(progress_step * (i + 1))
-  return results
+def analyze_images(images, prompt, model):  # Added 'model' as an argument
+    results = []
+    progress_bar = st.progress(0)
+    progress_step = 100 // len(images)  # Corrected line
+    for i, image in enumerate(images):
+        with st.spinner(f"Analyzing image {i+1}..."): 
+            response = model.generate_content([prompt, image])
+            results.append(response.text)
+            progress_bar.progress(progress_step * (i + 1))
+    return results
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
@@ -134,7 +131,7 @@ with expander:
             if input_text:  
                 prompt = selected_prompt + " " + input_text
             else:
-                prompt = selected_prompt
+                prompt = selected_prompt 
             responses = analyze_images(images, prompt, model)  # Pass 'model' as an argument
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
@@ -145,7 +142,7 @@ with expander:
         if custom_analyze_button:
             if input_text:
                 custom_prompt = input_text  
-                responses = analyze_images(images, custom_prompt)
+                responses = analyze_images(images, custom_prompt, model)  # Pass 'model' as an argument
                 st.subheader("Analysis Results:")
                 for i, response in enumerate(responses, start=1):
                     st.write(f"Design {i}:")
@@ -156,4 +153,3 @@ with expander:
 # Run the Streamlit app
 if __name__ == "__main__":
     st.write()
-
