@@ -4,7 +4,6 @@ import os
 import time
 from PIL import Image
 import google.generativeai as genai
-from streamlit_tooltip import st_tooltip
 
 # Load environment variables from .env file
 load_dotenv()
@@ -31,6 +30,7 @@ def analyze_images(images, prompt):
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
+Based on your last response please change this streamlit_tooltip
 You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'.
 """
 
@@ -74,11 +74,10 @@ with main_container:
     with header_col2:
         st.image("robot.jpg", caption="UX design assistant", width=150)
 
-    # Input Area with Tooltip
+    # Input Area
     user_question = st.text_input("You:", placeholder="Ask me anything about design...", 
                                   help="Start a conversation with your AI design assistant",
                                   key="user_input")
-    st_tooltip(user_question, "Example: 'How can I make this button more prominent?'") 
     submit_button = st.button("Send")
 
     if submit_button:
