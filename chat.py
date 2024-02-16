@@ -150,6 +150,7 @@ with expander:
             else:
                 st.warning("Please enter a custom prompt for analysis.")  
 
+# Run the Streamlit app
 if __name__ == "__main__":
-    main()  # Call the main function to run the Streamlit app
+    st.write()
 
