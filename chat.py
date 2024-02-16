@@ -8,13 +8,11 @@ import google.generativeai as genai
 # Load environment variables from .env file
 load_dotenv()
 
-model = None # Placeholder at the global level
+# Define and initialize the model variable
+model = genai.GenerativeModel('gemini-pro')
 
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
-    global model 
-    if model is None:  # Load model only if not already loaded
-        model = genai.GenerativeModel('gemini-pro') 
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
     with st.spinner("AI is typing..."):
         time.sleep(3) # Simulate model response time
@@ -22,7 +20,7 @@ def get_gemini_response(question):
     return response.text
 
 # Enhanced analyze_images function to include progress bar
-def analyze_images(images, prompt, model):  # Added 'model' as an argument
+def analyze_images(images, prompt):
     results = []
     progress_bar = st.progress(0)
     progress_step = 100 // len(images)  # Corrected line
@@ -136,7 +134,7 @@ with expander:
                 prompt = selected_prompt + " " + input_text
             else:
                 prompt = selected_prompt 
-            responses = analyze_images(images, prompt, model)  # Pass 'model' as an argument
+            responses = analyze_images(images, prompt)  # Pass 'model' as an argument
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
                 st.write(f"Design {i}:")
@@ -146,7 +144,7 @@ with expander:
         if custom_analyze_button:
             if input_text:
                 custom_prompt = input_text  
-                responses = analyze_images(images, custom_prompt, model)  # Pass 'model' as an argument
+                responses = analyze_images(images, custom_prompt)
                 st.subheader("Analysis Results:")
                 for i, response in enumerate(responses, start=1):
                     st.write(f"Design {i}:")
