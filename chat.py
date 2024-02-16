@@ -68,43 +68,43 @@ with st.expander("More options"):
         "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design.Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design."
     }
 
-input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-upload_files = st.file_uploader("Upload UX_Design Images:", type=["jpg", "jpeg", "png", "WEBP"], accept_multiple_files=True)
-
-if upload_files:
-    images = [Image.open(image) for image in upload_files]
-    st.image(images, width=300, caption=["Uploaded image"] * len(images), use_column_width=True)
-
-    input_text = st.text_input("Input Prompt:", key="input_prompt")
-
-    # Standard Analysis Button
-    analyze_button = st.button("Analyze Designs (Standard)")
-
-    # Custom Analysis Button
-    custom_analyze_button = st.button("Analyze Designs (Custom)")
-
-    if analyze_button:
-        selected_prompt = analysis_options[input_prompt]
-        if input_text:  
-            prompt = selected_prompt + " " + input_text
-        else:
-            prompt = selected_prompt 
-        responses = analyze_images(images, prompt)
-        st.subheader("Analysis Results:")
-        for i, response in enumerate(responses, start=1):
-            st.write(f"Design {i}:")
-            st.write(response)
-
-    if custom_analyze_button:
-        if input_text:
-            custom_prompt = input_text  
-            responses = analyze_images(images, custom_prompt)
+    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
+    upload_files = st.file_uploader("Upload UX_Design Images:", type=["jpg", "jpeg", "png", "WEBP"], accept_multiple_files=True)
+    
+    if upload_files:
+        images = [Image.open(image) for image in upload_files]
+        st.image(images, width=300, caption=["Uploaded image"] * len(images), use_column_width=True)
+    
+        input_text = st.text_input("Input Prompt:", key="input_prompt")
+    
+        # Standard Analysis Button
+        analyze_button = st.button("Analyze Designs (Standard)")
+    
+        # Custom Analysis Button
+        custom_analyze_button = st.button("Analyze Designs (Custom)")
+    
+        if analyze_button:
+            selected_prompt = analysis_options[input_prompt]
+            if input_text:  
+                prompt = selected_prompt + " " + input_text
+            else:
+                prompt = selected_prompt 
+            responses = analyze_images(images, prompt)
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
                 st.write(f"Design {i}:")
                 st.write(response)
-        else:
-            st.warning("Please enter a custom prompt for analysis.")  
-
-else:
-    st.write("Please upload at least one image to analyze")
+    
+        if custom_analyze_button:
+            if input_text:
+                custom_prompt = input_text  
+                responses = analyze_images(images, custom_prompt)
+                st.subheader("Analysis Results:")
+                for i, response in enumerate(responses, start=1):
+                    st.write(f"Design {i}:")
+                    st.write(response)
+            else:
+                st.warning("Please enter a custom prompt for analysis.")  
+    
+    else:
+        st.write("Please upload at least one image to analyze")
