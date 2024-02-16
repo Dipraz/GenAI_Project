@@ -24,10 +24,13 @@ def get_gemini_response(question):
     return response.text
 
 # Function to perform image analysis
-def analyze_image(image, prompt):
+def analyze_images(images, prompt):
     model = genai.GenerativeModel('gemini-pro-vision')
-    response = model.generate_content([prompt, image])
-    return response.text
+    results = []
+    for image in images:
+        response = model.generate_content([prompt, image])
+        results.append(response.text)
+    return results
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
@@ -66,12 +69,12 @@ with st.expander("More options"):
     }
 
     input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-    upload_file = st.file_uploader("Upload UX_Design Image:", type=["jpg", "jpeg", "png", "WEBP" ])
+    upload_files = st.file_uploader("Upload UX_Design Images:", type=["jpg", "jpeg", "png", "WEBP"], accept_multiple_files=True)
 
-    if upload_file:
-        image = Image.open(upload_file)
-        st.image(image, caption="Uploaded image", use_column_width=True)
-        submit = st.button("Analyze Design")
+    if upload_files:
+        images = [Image.open(image) for image in upload_files]
+        st.image(images, caption="Uploaded images", use_column_width=True)
+        submit = st.button("Analyze Designs")
 
         if submit:
             selected_prompt = analysis_options[input_prompt]
@@ -82,8 +85,10 @@ with st.expander("More options"):
                 prompt = selected_prompt + " " + input_text
             else:
                 prompt = selected_prompt
-            response = analyze_image(image, prompt)
-            st.subheader("Analysis Result:")
-            st.write(response)
+            responses = analyze_images(images, prompt)
+            st.subheader("Analysis Results:")
+            for i, response in enumerate(responses, start=1):
+                st.write(f"Design {i}:")
+                st.write(response)
     else:
-        st.write("Please upload an image to analyze")
+        st.write("Please upload at least one image to analyze")
