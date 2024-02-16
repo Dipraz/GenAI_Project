@@ -18,7 +18,7 @@ def get_gemini_response(question):
     return response.text
 
 # Enhanced analyze_images function to include progress bar
-def analyze_images(images, prompt):
+def analyze_images(images, prompt, model):
     results = []
     progress_bar = st.progress(0)
     progress_step = 100 // len(images)  # Calculate progress increments
@@ -125,18 +125,19 @@ with expander:
         input_text = st.text_input("Input Prompt:", key="input_prompt")
         analyze_button = st.button("Analyze Designs (Standard)")
         custom_analyze_button = st.button("Analyze Designs (Custom)")
-
+        
         if analyze_button:
             selected_prompt = analysis_options[input_prompt]
             if input_text:  
                 prompt = selected_prompt + " " + input_text
             else:
                 prompt = selected_prompt 
-            responses = analyze_images(images, prompt)
+            responses = analyze_images(images, prompt, model)  # Pass 'model' as an argument
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
                 st.write(f"Design {i}:")
                 st.write(response)
+
 
         if custom_analyze_button:
             if input_text:
