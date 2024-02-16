@@ -7,11 +7,14 @@ import google.generativeai as genai
 
 # Load environment variables from .env file
 load_dotenv()
+model = None  # Define model at the global level
 
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
-  model = genai.GenerativeModel('gemini-pro')
-  full_input = f"{UX_DESIGN_PROMPT}\n{question}"
+    global model  # Access the global 'model' variable
+    if model is None:  # Load model only if not already loaded
+        model = genai.GenerativeModel('gemini-pro') 
+    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
   with st.spinner("AI is typing..."):
     time.sleep(3) # Simulate model response time
     response = model.generate_content(full_input)
@@ -131,7 +134,7 @@ with expander:
             if input_text:  
                 prompt = selected_prompt + " " + input_text
             else:
-                prompt = selected_prompt 
+                prompt = selected_prompt
             responses = analyze_images(images, prompt, model)  # Pass 'model' as an argument
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
