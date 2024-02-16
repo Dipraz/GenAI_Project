@@ -66,7 +66,7 @@ with st.expander("More options"):
     }
 
     input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-    upload_file = st.file_uploader("Upload UX_Design Image:", type=["jpg", "jpeg", "png"])
+    upload_file = st.file_uploader("Upload UX_Design Image:", type=["jpg", "jpeg", "png", "WEBP" ])
 
     if upload_file:
         image = Image.open(upload_file)
