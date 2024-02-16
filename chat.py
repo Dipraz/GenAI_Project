@@ -58,25 +58,30 @@ with st.expander("More options"):
     # Image Analysis Section
     st.header("Image Analysis")
     analysis_options = {
-        "Content Analysis": "Identify topics, themes, or keywords from the slides.",
-        "Visual Analysis": "Group slides based on layout, color palettes, chart types, or image presence.",
-        "Presentation Type": "Differentiate between introductory slides, data visualizations, analysis reports, or storytelling narratives.",
-        "Emotional Tone": "Gauge the overall emotional sentiment conveyed by the slides.",
-        "Time-Based Organization": "Cluster slides based on creation date or presentation sequence."
+        "Heuristic Evaluation": "Analyze the image against established UX heuristics (e.g., Nielsen's 10 Usability Heuristics). Highlight potential areas for improvement.Example Prompt: Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues? ",
+        "Accessibility Analysis": "Assess the image for accessibility compliance (color contrast, alt-text, readability). Provide recommendations.Example Prompt:Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity. ",
+        "Visual Hierarchy Review": " Analyze the image's visual composition. Focus on the importance of design elements, guiding the user's eye.Example Prompt: Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects? ",
+        "Comparative Analysis": " Let the user upload two (or more) design variations. Analyze strengths/weaknesses, suggesting the superior version.Example Prompt: Compare these two design options. Which one is more successful based on [state a guiding principle, e.g., clarity, intuitiveness], and why?",
+        "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design.Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design."
     }
 
     input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-    upload_file = st.file_uploader("Upload Slide Image:", type=["jpg", "jpeg", "png"])
+    upload_file = st.file_uploader("Upload UX_Design Image:", type=["jpg", "jpeg", "png"])
 
     if upload_file:
         image = Image.open(upload_file)
         st.image(image, caption="Uploaded image", use_column_width=True)
-        submit = st.button("Analyze Slide")
+        submit = st.button("Analyze Design")
 
         if submit:
             selected_prompt = analysis_options[input_prompt]
-            response = analyze_image(image, selected_prompt)
+            # Combine the selected prompt with a custom prompt if provided
+            if input:
+                prompt = selected_prompt + " " + input
+            else:
+                prompt = selected_prompt + " " + input
+            response = analyze_image(image, prompt)
             st.subheader("Analysis Result:")
             st.write(response)
     else:
-        st.write("Please upload an image to analyze") 
+        st.write("Please upload an image to analyze")
