@@ -11,6 +11,7 @@ load_dotenv()
 # Define and initialize the model variable
 model = genai.GenerativeModel('gemini-pro')
 vision_model = genai.GenerativeModel('gemini-pro-vision')
+
 # Function to load OpenAI model and get responses
 def get_gemini_response(question):
     full_input = f"{UX_DESIGN_PROMPT}\n{question}"
@@ -23,13 +24,20 @@ def get_gemini_response(question):
 def analyze_images(images, prompt):
     results = []
     progress_bar = st.progress(0)
-    progress_step = 100 // len(images)  # Corrected line
+    progress_step = 100 // len(images)
     for i, image in enumerate(images):
         with st.spinner(f"Analyzing image {i+1}..."): 
             response = vision_model.generate_content([prompt, image])
             results.append(response.text)
             progress_bar.progress(progress_step * (i + 1))
     return results
+
+# Function to calculate rating based on analysis results
+def calculate_rating(analysis_result):
+    # Implement your rating calculation logic here
+    # For simplicity, let's assign a random rating between 1 and 5
+    import random
+    return random.randint(1, 5)
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
@@ -40,7 +48,7 @@ You are a friendly, kind, helpful, and highly knowledgeable world-best UX design
 st.set_page_config(
     page_title="UX Design Assistant",
     page_icon=":art:",
-    layout="wide" 
+    layout="wide"
 )
 
 # Theme
@@ -134,12 +142,14 @@ with expander:
                 prompt = selected_prompt + " " + input_text
             else:
                 prompt = selected_prompt 
-            responses = analyze_images(images, prompt)  # Pass 'model' as an argument
+            responses = analyze_images(images, prompt)  
             st.subheader("Analysis Results:")
             for i, response in enumerate(responses, start=1):
                 st.write(f"Design {i}:")
                 st.write(response)
-
+                # Calculate and display rating
+                rating = calculate_rating(response)
+                st.write(f"Rating: {rating}/5")
 
         if custom_analyze_button:
             if input_text:
@@ -149,6 +159,9 @@ with expander:
                 for i, response in enumerate(responses, start=1):
                     st.write(f"Design {i}:")
                     st.write(response)
+                    # Calculate and display rating
+                    rating = calculate_rating(response)
+                    st.write(f"Rating: {rating}/5")
             else:
                 st.warning("Please enter a custom prompt for analysis.")  
 
