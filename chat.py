@@ -5,6 +5,7 @@ import time
 from PIL import Image, ImageStat
 import numpy as np
 import cv2
+import google.generativeai as genai
 import random  # Used only for placeholder logic
 
 # Load environment variables from .env file
