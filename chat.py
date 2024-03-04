@@ -5,7 +5,6 @@ import time
 from PIL import Image
 import google.generativeai as genai
 import cv2
-import random  # Remove if not needed elsewhere
 
 # Load environment variables from .env file
 load_dotenv()
@@ -23,29 +22,25 @@ def get_gemini_response(question):
     return response.text
 
 # Define Scoring Functions
-import cv2  # Import OpenCV for image analysis
-
-def calculate_image_quality_score(analysis_result, image):
+def calculate_image_quality_score(analysis_result, image_path):
     # Implement your own logic here based on analysis_result and image metrics
     score = random.randint(1, 5)  # Placeholder for your logic
     return score
 
-def calculate_accessibility_score(analysis_result, image):
+def calculate_accessibility_score(analysis_result, image_path):
     # Implement your own logic here
     score = random.randint(1, 5)  # Placeholder for your logic
     return score
 
-def calculate_visual_hierarchy_score(analysis_result, image):
+def calculate_visual_hierarchy_score(analysis_result, image_path):
     # Implement your own logic here
     score = random.randint(1, 5)  # Placeholder for your logic
     return score
 
-def calculate_rating(analysis_result, image_path):  # Update to use image path
-    # Convert image to an array for analysis
-    image_array = cv2.imread(image_path)
-    quality_score = calculate_image_quality_score(analysis_result, image_array)
-    accessibility_score = calculate_accessibility_score(analysis_result, image_array)
-    hierarchy_score = calculate_visual_hierarchy_score(analysis_result, image_array)
+def calculate_rating(analysis_result, image_path):  # Pass the image as an argument
+    quality_score = calculate_image_quality_score(analysis_result, image_path)
+    accessibility_score = calculate_accessibility_score(analysis_result, image_path)
+    hierarchy_score = calculate_visual_hierarchy_score(analysis_result, image_path)
 
     overall_rating = (quality_score + accessibility_score + hierarchy_score) / 3
     return round(overall_rating, 1)  # Round to one decimal for display
@@ -124,64 +119,58 @@ with main_container:
             response_text = get_gemini_response(user_question)
         st.write("AI:", response_text)
 
-# Expander Configuration
-expander = st.expander("More options", expanded=True)
-with expander:
-    st.write("You can explore more features and options here.")
+# --- IMAGE ANALYSIS FEATURES ---
+st.header("Image Analysis")
+col1, col2 = st.columns(2)
 
-    # --- IMAGE ANALYSIS FEATURES ---
-    st.header("Image Analysis")
-    col1, col2 = st.columns(2)
+with col1:
+    analysis_options = {
+        "Heuristic Evaluation": "Analyze the image against established UX heuristics (e.g., Nielsen's 10 Usability Heuristics). Highlight potential areas for improvement.Example Prompt: Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues?",
+        "Accessibility Analysis": "Assess the image for accessibility compliance (color contrast, alt-text, readability). Provide recommendations.Example Prompt: Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
+        "Visual Hierarchy Review": "Analyze the image's visual composition. Focus on the importance of design elements, guiding the user's eye.Example Prompt: Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
+        "Comparative Analysis": "Let the user upload two (or more) design variations. Analyze strengths/weaknesses, suggesting the superior version.Example Prompt: Compare these two design options. Which one is more successful based on [state a guiding principle, e.g., clarity, intuitiveness], and why?",
+        "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design.Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design."
+    }
+    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
+    upload_files = st.file_uploader("Upload UX Design Images:",
+                                    type=["jpg", "jpeg", "png", "webp"],
+                                    accept_multiple_files=True)
+    images = []  # Moved initialization outside the if statement
+    if upload_files:
+        for uploaded_file in upload_files:
+            image = Image.open(uploaded_file)
+            images.append(image)
+        if len(upload_files) > 1:
+            st.write("Image Gallery:")
+            cols = st.columns(len(upload_files))
+            for idx, uploaded_file in enumerate(upload_files):
+                cols[idx].image(uploaded_file)
+        else:
+            st.image(upload_files, caption="Uploaded Image")
 
-    with col1:
-        analysis_options = {
-            # Define analysis options here
-        }
-        input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-        upload_files = st.file_uploader("Upload UX Design Images:",
-                                        type=["jpg", "jpeg", "png", "webp"],
-                                        accept_multiple_files=True)
-        if upload_files:
-            images = []
-            for uploaded_file in upload_files:
-                image = Image.open(uploaded_file)
-                images.append(image)
-            image_container = st.container()
-            if len(upload_files) > 1:
-                st.write("Image Gallery:")
-                cols = st.columns(len(upload_files))
-                for idx, uploaded_file in enumerate(upload_files):
-                    cols[idx].image(uploaded_file)
-            else:
-                image_container.image(upload_files, caption="Uploaded Image")
+with col2:
+    input_text = st.text_input("Input Prompt:", value="", key="input_prompt")  # Added default value for clarity
+    analyze_button = st.button("Analyze Designs (Standard)")
+    custom_analyze_button = st.button("Analyze Designs (Custom)")
 
-    with col2:
-        input_text = st.text_input("Input Prompt:", key="input_prompt")
-        analyze_button = st.button("Analyze Designs (Standard)")
-        custom_analyze_button = st.button("Analyze Designs (Custom)")
-
-        if analyze_button:
-            selected_prompt = analysis_options.get(input_prompt, "")
-            if input_text:
-                prompt = selected_prompt + " " + input_text
-            else:
-                prompt = selected_prompt
+    if analyze_button:
+        selected_prompt = analysis_options.get(input_prompt, "")
+        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+        if images:  # Check if there are images to analyze
             responses = analyze_images(images, prompt)
             st.subheader("Analysis Results:")
-            for i, response in enumerate(responses, start=1):
-                st.write(f"Design {i}:")
+            for response in responses:
                 st.write(response)
 
-        if custom_analyze_button:
-            if input_text:
-                custom_prompt = input_text
-                responses = analyze_images(images, custom_prompt)
-                st.subheader("Analysis Results:")
-                for i, response in enumerate(responses, start=1):
-                    st.write(f"Design {i}:")
-                    st.write(response)
-            else:
-                st.warning("Please enter a custom prompt for analysis.")
+    if custom_analyze_button:
+        if input_text and images:  # Check both conditions
+            custom_prompt = input_text
+            responses = analyze_images(images, custom_prompt)
+            st.subheader("Analysis Results:")
+            for response in responses:
+                st.write(response)
+        else:
+            st.warning("Please enter a custom prompt for analysis and upload images.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
