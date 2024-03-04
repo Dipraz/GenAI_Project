@@ -6,6 +6,7 @@ from PIL import Image
 import google.generativeai as genai
 import cv2
 import random  # Used only for placeholder logic
+import base64
 
 # Load environment variables from .env file
 load_dotenv()
@@ -21,6 +22,11 @@ def get_gemini_response(question):
         time.sleep(3)  # Simulate model response time
         response = model.generate_content(full_input)
     return response.text
+
+# Function to convert image to base64-encoded text
+def image_to_base64(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 # Define Scoring Functions based on the hypothetical outputs from vision_model
 def calculate_rating(analysis_result):  # Placeholder for real logic
@@ -38,13 +44,17 @@ def analyze_images(images, prompt):
             temp_img_path = f"temp_image_{i}.png"
             image.save(temp_img_path)
 
-            # Assuming the vision model requires a dictionary with image path and prompt
-            response = vision_model.generate_content({'image_path': temp_img_path, 'prompt': prompt})
-            # Here you should parse the response from your vision_model
-            # This example assumes the response includes some form of analysis
-            analysis = response.get('analysis', {})  # Placeholder for actual response handling
+            image_base64 = image_to_base64(temp_img_path)
+            request_content = {
+                'parts': [{
+                    'mime_type': 'image/png',
+                    'data': image_base64
+                }],
+                'prompt': prompt
+            }
 
-            # Convert analysis into scores (this part is highly dependent on your model's output)
+            response = vision_model.generate_content(request_content)
+            analysis = response.get('analysis', {})  # Adapt based on actual response structure
             score = calculate_rating(analysis)  # Convert the response into a UX score
 
             results.append({'analysis': analysis, 'score': score})
