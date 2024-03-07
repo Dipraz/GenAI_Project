@@ -153,11 +153,14 @@ image_headline_analysis_options = {
 
 # Image Analysis Features
 st.header("Image Analysis")
-col1, col2 = st.columns(2)
+analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Image Headline Analysis"])
 
-with col1:
-    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Image Headline Analysis"])
-    if analysis_choice != "Image Headline Analysis":
+if analysis_choice == "Image Headline Analysis":
+    image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
+    input_text = st.text_area("Input Prompt for Headline Analysis:", height=150, help="Enter a custom analysis prompt or additional information for the headline analysis.")
+else:
+    col1, col2 = st.columns(2)
+    with col1:
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
         images = []
         if upload_files:
@@ -171,13 +174,7 @@ with col1:
                     cols[idx].image(uploaded_file, width=150)
             else:
                 st.image(upload_files[0], caption="Uploaded Image", width=300)
-
-    if analysis_choice == "Image Headline Analysis":
-        st.header("Image Headline Analysis Criteria")
-        image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
-
-with col2:
-    if analysis_choice != "Image Headline Analysis":
+    with col2:
         input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
         analyze_button = st.button("Analyze Designs (Standard)")
         custom_analyze_button = st.button("Analyze Designs (Custom)")
