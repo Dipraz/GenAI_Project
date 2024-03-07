@@ -6,7 +6,8 @@ import time
 from PIL import Image, ImageStat
 import numpy as np
 import cv2
-import random  # Used only for placeholder logic
+import random
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -144,7 +145,8 @@ with col1:
         "Accessibility Analysis": "Assess the image for accessibility compliance (color contrast, alt-text, readability). Provide recommendations. Example Prompt: Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
         "Visual Hierarchy Review": "Analyze the image's visual composition. Focus on the importance of design elements, guiding the user's eye. Example Prompt: Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
         "Comparative Analysis": "Let the user upload two (or more) design variations. Analyze strengths/weaknesses, suggesting the superior version. Example Prompt: Compare these two design options. Which one is more successful based on [state a guiding principle, e.g., clarity, intuitiveness], and why?",
-        "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design. Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design."
+        "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design. Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
+        "Headline Analysis": "Analyze the headline for clarity, relevance, emotional appeal, keywords, and overall effectiveness. Example Prompt: I think this could work well as a headline prompt in order to score: Headline for Evaluation: [Insert Headline Here]"
     }
     input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
     upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
