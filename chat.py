@@ -175,7 +175,7 @@ def read_uploaded_headlines(uploaded_file):
     return headlines
 
 headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
-upload_headline_button = st.file_uploader("Upload Headlines:", type=["txt"])
+upload_headline_button = st.file_uploader("Upload Headlines:",type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
 
 if upload_headline_button:
     headlines = read_uploaded_headlines(upload_headline_button)
