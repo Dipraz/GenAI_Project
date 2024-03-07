@@ -75,14 +75,15 @@ def analyze_images(images, prompt):
     return results
 
 # Function to analyze headlines based on selected criteria and input prompt
-def analyze_headlines(images, prompt):
+def analyze_headlines(criteria, headlines):
     results = []
     for criterion, prompt_suffix in criteria.items():
-        full_prompt = prompt + " " + prompt_suffix
-        with st.spinner(f"Analyzing headline for '{criterion}'..."):
-            time.sleep(2)  # Simulate analysis time
-            response = get_gemini_response(full_prompt)
-            results.append(f"{criterion}: {response}")
+        for headline in headlines:
+            full_prompt = headline + " " + prompt_suffix
+            with st.spinner(f"Analyzing headline for '{criterion}'..."):
+                time.sleep(2)  # Simulate analysis time
+                response = get_gemini_response(full_prompt)
+                results.append(f"{criterion} for headline '{headline}': {response}")
     return results
 
 # Define UX design prompt
@@ -162,31 +163,21 @@ Headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
-# Function to analyze headlines based on selected criteria and input prompt
-def analyze_headlines(images, prompt):
-    results = []
-    for criterion, prompt_suffix in criteria.items():
-        full_prompt = prompt + " " + prompt_suffix
-        with st.spinner(f"Analyzing headline for '{criterion}'..."):
-            time.sleep(2)  # Simulate analysis time
-            response = get_gemini_response(full_prompt)
-            results.append(f"{criterion}: {response}")
-    return results
-
 # Headline Analysis Section
 st.header("Headline Analysis")
 headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
-headline_prompt = st.text_input("Input Prompt:", help="Enter a prompt for headline analysis.")
-analyze_headline_button = st.button("Analyze Headline")
+upload_headline_button = st.file_uploader("Upload Headlines:", type=["txt"], accept_multiple_files=False)
+analyze_headline_button = st.button("Analyze Headlines")
 
-if analyze_headline_button:
-    if headline_prompt and headline_criteria:
-        headline_results = analyze_headlines({criterion: Headline_analysis_options[criterion] for criterion in headline_criteria}, headline_prompt)
+if analyze_headline_button and upload_headline_button:
+    headlines = upload_headline_button.getvalue().decode("utf-8").splitlines()
+    if headlines and headline_criteria:
+        headline_results = analyze_headlines({criterion: Headline_analysis_options[criterion] for criterion in headline_criteria}, headlines)
         st.subheader("Analysis Results:")
         for result in headline_results:
             st.write(result)
     else:
-        st.warning("Please provide both a headline prompt and select at least one analysis criterion.")
+        st.warning("Please upload a text file with headlines and select at least one analysis criterion.")
 
 # Image Analysis Features
 st.header("Image Analysis")
