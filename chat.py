@@ -133,7 +133,7 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": "Evaluate the effectiveness of the design's headline based on multiple criteria."
+    "Image Headline Analysis": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) "
 }
 
 # Define Headline Analysis Options
