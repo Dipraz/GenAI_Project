@@ -67,9 +67,8 @@ def analyze_images(images, prompt):
             temp_img_path = f"temp_image_{i}.png"
             image.save(temp_img_path)
             response = vision_model.generate_content([prompt, Image.open(temp_img_path)])
-            results.append(response.text)
             rating = calculate_rating(response.text, temp_img_path)
-            results.append(f"UX Design Rating: {rating}/5")
+            results.append(f"{response.text}\nUX Design Rating: {rating}/5")
             progress_bar.progress(progress_step * (i + 1))
             os.remove(temp_img_path)
     return results
@@ -191,7 +190,7 @@ with col2:
                     st.write(response)
         else:
             if images:  # Ensure there are images to analyze for headline analysis
-                headline_response = vision_model.generate_content([headline_analysis_options[headline_option], images])
+                headline_response = vision_model.generate_content([headline_analysis_options[headline_option], input_text])
                 st.subheader("Headline Analysis Results:")
                 st.write(f"{headline_option}: {headline_response.text}")  # Display headline analysis result
             else:
