@@ -74,18 +74,6 @@ def analyze_images(images, prompt):
             os.remove(temp_img_path)
     return results
 
-# Function to analyze headlines based on selected criteria and input prompt
-def analyze_headlines(criteria, headlines):
-    results = []
-    for criterion, prompt_suffix in criteria.items():
-        for headline in headlines:
-            full_prompt = headline + " " + prompt_suffix
-            with st.spinner(f"Analyzing headline for '{criterion}'..."):
-                time.sleep(2)  # Simulate analysis time
-                response = get_gemini_response(full_prompt)
-                results.append(f"{criterion} for headline '{headline}': {response}")
-    return results
-
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
 You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'.
@@ -147,8 +135,8 @@ analysis_options = {
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design."
 }
 
-# Define Image Headline Analysis Options
-Image_Headline_analysis_options = {
+# Define Headline Analysis Options
+Headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
@@ -163,56 +151,28 @@ Image_Headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
-# Function to read uploaded headlines
-def read_uploaded_headlines(uploaded_file):
-    headlines = []
-    for line in uploaded_file:
-        decoded_line = line.decode("utf-8").strip()
-        headlines.append(decoded_line)
-    return headlines
-
-# Image Headline Analysis Section
-st.header("Image Headline Analysis")
-
-headline_criteria = st.multiselect("Select Criteria:", list(Image_Headline_analysis_options.keys()))
-upload_headline_button = st.file_uploader("Upload Headlines:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-
-if upload_headline_button:
-    headlines = read_uploaded_headlines(upload_headline_button)
-    st.write(f"Number of Headlines Uploaded: {len(headlines)}")
-    st.write("Headlines:")
-    for headline in headlines:
-        st.write(headline)
-
-    analyze_headline_button = st.button("Analyze Headlines")
-
-    if analyze_headline_button and headlines and headline_criteria:
-        headline_results = analyze_headlines({criterion: Image_Headline_analysis_options[criterion] for criterion in headline_criteria}, headlines)
-        st.subheader("Analysis Results:")
-        for result in headline_results:
-            st.write(result)
-    elif not headline_criteria:
-        st.warning("Please select at least one analysis criterion.")
-
 # Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
 
 with col1:
-    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-    images = []
-    if upload_files:
-        for uploaded_file in upload_files:
-            image = Image.open(uploaded_file)
-            images.append(image)
-        if len(upload_files) > 1:
-            st.write("Image Gallery:")
-            cols = st.columns(len(upload_files))
-            for idx, uploaded_file in enumerate(upload_files):
-                cols[idx].image(uploaded_file, width=150)
-        else:
-            st.image(upload_files[0], caption="Uploaded Image", width=300)
+    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
+    if analysis_choice == "Headline Analysis":
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
+    else:
+        upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+        images = []
+        if upload_files:
+            for uploaded_file in upload_files:
+                image = Image.open(uploaded_file)
+                images.append(image)
+            if len(upload_files) > 1:
+                st.write("Image Gallery:")
+                cols = st.columns(len(upload_files))
+                for idx, uploaded_file in enumerate(upload_files):
+                    cols[idx].image(uploaded_file, width=150)
+            else:
+                st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
