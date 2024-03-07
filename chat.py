@@ -150,7 +150,48 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores] "
+    "Image Headline Analysis": """**Clarity and Conciseness:** Is the headline easy to understand and grasp the main point immediately?
+* **Score (1-5):** 
+* **Explanation:**
+
+**Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?
+* **Score (1-5):** 
+* **Explanation:**
+
+**Emotional Appeal:** Does the headline evoke any emotion or curiosity? 
+* **Score (1-5):** 
+* **Explanation:**
+
+**Target Audience:** Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?
+* **Score (1-5):** 
+* **Explanation:**
+
+**Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?
+* **Score (1-5):**
+* **Explanation:** 
+
+**Additional Considerations:**
+
+* **Use of Keywords:** Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Uniqueness:** How unique or original is the headline?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Urgency and Curiosity:** Does the headline create a sense of urgency or curiosity?
+    * **Score (1-5):** 
+    * **Explanation:** 
+* **Length and Format:** Is the headline an appropriate length (ideally 6-12 words)? Does it follow a compelling format (e.g., question, list, how-to)? 
+    * **Score (1-5):** 
+    * **Explanation:** 
+* **Brand Consistency:** Does the headline align with the overall brand tone and style?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Power Words:** Does the headline include power words or action verbs?
+    * **Score (1-5):** 
+    * **Explanation:**
+**Total Score:** [sum of scores/total applicable scores]
+**Overall Assessment:** [Provide a brief summary of the headline's strengths and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] """
 }
 
 image_headline_analysis_options = {
