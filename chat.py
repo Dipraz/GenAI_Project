@@ -136,7 +136,7 @@ analysis_options = {
 }
 
 # Define Headline Analysis Options
-analysis_options = {
+headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
@@ -173,7 +173,7 @@ with col1:
             st.image(upload_files[0], caption="Uploaded Image", width=300)
 
     if analysis_choice == "Headline Analysis":
-        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
