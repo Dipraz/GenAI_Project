@@ -150,48 +150,49 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": """**Clarity and Conciseness:** Is the headline easy to understand and grasp the main point immediately?
-* **Score (1-5):** 
-* **Explanation:**
+    "Image Headline Analysis": """**Headline for Evaluation:** [Insert Headline Here]
 
-**Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?
-* **Score (1-5):** 
-* **Explanation:**
+**Analyze the following aspects, providing a score and explanation for each:**
 
-**Emotional Appeal:** Does the headline evoke any emotion or curiosity? 
-* **Score (1-5):** 
-* **Explanation:**
-
-**Target Audience:** Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?
-* **Score (1-5):** 
-* **Explanation:**
-
-**Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?
-* **Score (1-5):**
-* **Explanation:** 
-
-**Additional Considerations:**
-
-* **Use of Keywords:** Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally?
+* **Clarity and Conciseness:** Is the headline immediately understandable? Can the main point be grasped at a glance?
     * **Score (1-5):** 
     * **Explanation:**
-* **Uniqueness:** How unique or original is the headline?
+* **Relevance and Accuracy:** How accurately does the headline reflect the image's content, theme, or message?
     * **Score (1-5):** 
     * **Explanation:**
-* **Urgency and Curiosity:** Does the headline create a sense of urgency or curiosity?
+* **Emotional Appeal:** Does the headline evoke curiosity, excitement, or any other emotional response?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Target Audience:** Is the language and tone appropriate for the intended audience (consider demographics, interests, etc.)? 
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Benefit-Driven:** Does the headline highlight a clear benefit or value for the reader?
+    * **Score (1-5):**
+    * **Explanation:** 
+* **Keyword Optimization:** Are relevant keywords included for SEO? Do they fit naturally?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Uniqueness:** Does the headline stand out as original or attention-grabbing?
+    * **Score (1-5):** 
+    * **Explanation:**
+* **Urgency and Curiosity:** Does the headline inspire a desire to click or learn more?
     * **Score (1-5):** 
     * **Explanation:** 
-* **Length and Format:** Is the headline an appropriate length (ideally 6-12 words)? Does it follow a compelling format (e.g., question, list, how-to)? 
+* **Length and Format:** Is the length appropriate? Does the format enhance readability and impact? 
     * **Score (1-5):** 
     * **Explanation:** 
-* **Brand Consistency:** Does the headline align with the overall brand tone and style?
+* **Brand Consistency:**  If applicable, does the headline align with the brand's voice and style?
     * **Score (1-5):** 
     * **Explanation:**
-* **Power Words:** Does the headline include power words or action verbs?
+* **Power Words:** Are strong verbs or impactful language used?
     * **Score (1-5):** 
     * **Explanation:**
+
 **Total Score:** [sum of scores/total applicable scores]
-**Overall Assessment:** [Provide a brief summary of the headline's strengths and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] """
+
+**Overall Assessment:** Summarize strengths and weaknesses. Provide specific recommendations to make the headline more effective, appealing, and optimized. 
+
+**Summary:** [Provide a short summary based on your all analysis and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] """
 }
 
 image_headline_analysis_options = {
