@@ -174,7 +174,7 @@ with col1:
 
 with col2:
     if analysis_choice == "Image Headline Analysis":
-        image_headline_option = st.selectbox("Select Headline Analysis Criterion:", list(image_headline_analysis_options.keys()))
+        image_headline_option = st.selectbox("Select Image Headline Analysis Criterion:", list(image_headline_analysis_options.keys()))
     else:
         input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
         analyze_button = st.button("Analyze Designs (Standard)")
