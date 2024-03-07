@@ -176,8 +176,8 @@ Strengths: (2-3 key strengths)
 Weaknesses: (2-3 areas for improvement)
 Recommendations: (2-3 actionable suggestions to strengthen the headline)
 Detailed Analysis
-Clarity and Conciseness: (Score + Explanation)
-Relevance and Accuracy: (Score + Explanation)
+Clarity and Conciseness: (Score: + Very Short Explanation)
+Relevance and Accuracy: (Score: + Very Short Explanation)
 ... (Continue for each point)
 **Total Score:** [sum of scores/total applicable scores]
 
