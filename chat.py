@@ -150,28 +150,14 @@ Headline_analysis_options = {
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
-    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options,Headline_analysis_options.keys()))
-    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-    images = []
-    if upload_files:
-        for uploaded_file in upload_files:
-            image = Image.open(uploaded_file)
-            images.append(image)
-        if len(upload_files) > 1:
-            st.write("Image Gallery:")
-            cols = st.columns(len(upload_files))
-            for idx, uploaded_file in enumerate(upload_files):
-                cols[idx].image(uploaded_file, width=150)
-        else:
-            st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 # Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
 
 with col1:
-    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
-    if analysis_choice == "Headline Analysis":
+    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
+    if input_prompt == "Headline Analysis":
         headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
     else:
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
@@ -194,7 +180,7 @@ with col2:
     custom_analyze_button = st.button("Analyze Designs (Custom)")
 
     if analyze_button and images:
-        selected_prompt = analysis_options.get(analysis_choice, "")
+        selected_prompt = analysis_options.get(input_prompt, "")
         prompt = selected_prompt + " " + input_text if input_text else selected_prompt
         responses = analyze_images(images, prompt)
         st.subheader("Analysis Results:")
