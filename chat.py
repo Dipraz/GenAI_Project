@@ -1,12 +1,13 @@
-# Import necessary libraries
 import google.generativeai as genai
 from dotenv import load_dotenv
 import streamlit as st
 import os
 import time
 from PIL import Image, ImageStat
+import numpy as np
 import cv2
 import random
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -132,42 +133,24 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": "Analyze the effectiveness of image headlines."
+    "Image Headline Analysis": "Evaluate the effectiveness of the design's headline based on multiple criteria."
 }
 
 # Define Headline Analysis Options
 image_headline_analysis_options = {
-    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
-    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
-    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
-    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5): ",
-    "Uniqueness": "How unique or original is the headline? Score (1-5): ",
-    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5): ",
-    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5): ",
-    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5): ",
-    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5): ",
-    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5): ",
-    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5): ",
-    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5): "
+    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) ",
+    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5)",
+    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5)",
+    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5)",
+    "Uniqueness": "How unique or original is the headline? Score (1-5)",
+    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5)",
+    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5)",
+    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5)",
+    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5)",
+    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5)",
+    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5)",
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)"
 }
-
-# Define a function to analyze image headlines based on specific criteria
-def analyze_image_headlines(images, criteria):
-    results = []
-    progress_bar = st.progress(0)
-    progress_step = 100 // len(images)
-    for i, image in enumerate(images):
-        result = f"Analysis for Image {i+1}:"
-        for criterion, prompt in criteria.items():
-            temp_img_path = f"temp_image_{i}.png"
-            image.save(temp_img_path)
-            response = vision_model.generate_content([prompt, Image.open(temp_img_path)])
-            rating = calculate_rating(response.text, temp_img_path)
-            result += f"\n{criterion}: {rating}"
-            os.remove(temp_img_path)
-        results.append(result)
-        progress_bar.progress(progress_step * (i + 1))
-    return results
 
 # Image Analysis Features
 st.header("Image Analysis")
@@ -190,26 +173,29 @@ with col1:
             st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 with col2:
+    if analysis_choice == "Image Headline Analysis":
+        image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
-    analyze_button = st.button("Analyze Designs")
+    analyze_button = st.button("Analyze Designs (Standard)")
+    custom_analyze_button = st.button("Analyze Designs (Custom)")
 
     if analyze_button and images:
-        if analysis_choice == "Image Headline Analysis":
-            if not image_headline_analysis_options:
-                st.warning("Please select at least one criterion for image headline analysis.")
-            else:
-                criteria = {option: image_headline_analysis_options[option] for option in image_headline_analysis_options}
-                responses = analyze_image_headlines(images, criteria)
-                st.subheader("Analysis Results:")
-                for response in responses:
-                    st.write(response)
-        else:
-            selected_prompt = analysis_options.get(analysis_choice, "")
-            prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-            responses = analyze_images(images, prompt)
+        selected_prompt = analysis_options.get(analysis_choice, "")
+        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+        responses = analyze_images(images, prompt)
+        st.subheader("Analysis Results:")
+        for response in responses:
+            st.write(response)
+
+    if custom_analyze_button and images:
+        if input_text:  # Ensure there's a custom prompt
+            custom_prompt = input_text
+            responses = analyze_images(images, custom_prompt)
             st.subheader("Analysis Results:")
             for response in responses:
                 st.write(response)
+        else:
+            st.warning("Please enter a custom prompt for analysis.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
