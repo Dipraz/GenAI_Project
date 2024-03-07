@@ -8,6 +8,8 @@ import numpy as np
 import cv2
 import random
 import re
+import base64
+from io import BytesIO
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,50 +28,45 @@ def get_gemini_response(question):
 
 # Define Scoring Functions
 def calculate_image_quality_score(analysis_result, image_path):
-    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-    laplacian_var = cv2.Laplacian(image, cv2.CV_64F).var()
-    if laplacian_var > 300:
-        return 5
-    elif laplacian_var > 100:
-        return 3
-    else:
-        return 1
+    # Implement your image quality scoring logic here
+    pass
 
 def calculate_accessibility_score(analysis_result, image_path):
-    image = Image.open(image_path)
-    stat = ImageStat.Stat(image)
-    brightness = stat.mean[0]
-    if brightness > 192:
-        return 5
-    elif brightness > 128:
-        return 3
-    else:
-        return 1
+    # Implement your accessibility scoring logic here
+    pass
 
 def calculate_visual_hierarchy_score(analysis_result, image_path):
-    return random.randint(1, 5)
+    # Implement your visual hierarchy scoring logic here
+    pass
 
 def calculate_rating(analysis_result, image_path):
-    quality_score = calculate_image_quality_score(analysis_result, image_path)
-    accessibility_score = calculate_accessibility_score(analysis_result, image_path)
-    hierarchy_score = calculate_visual_hierarchy_score(analysis_result, image_path)
+    # Combine quality, accessibility, and hierarchy scores to calculate overall rating
+    pass
 
-    overall_rating = (quality_score + accessibility_score + hierarchy_score) / 3
-    return round(overall_rating, 1)
+# Image Conversion Helper
+def image_to_base64(image):
+    buffered = BytesIO()
+    image.save(buffered, format="JPEG") 
+    img_str = base64.b64encode(buffered.getvalue()).decode()
+    return img_str
 
 # Enhanced analyze_images function to include scoring
 def analyze_images(images, prompt):
     results = []
     progress_bar = st.progress(0)
     progress_step = 100 // len(images)
+
     for i, image in enumerate(images):
         with st.spinner(f"Analyzing image {i+1}..."):
             temp_img_path = f"temp_image_{i}.png"
             image.save(temp_img_path)
-            response = vision_model.generate_content([prompt, Image.open(temp_img_path)])
-            results.append(response.text)
+            
+            # Convert image to base64 for model input
+            image_base64 = image_to_base64(image) 
+
+            response = vision_model.generate_content(image_base64)  # Remove the prompt from here
             rating = calculate_rating(response.text, temp_img_path)
-            results.append(f"UX Design Rating: {rating}/5")
+            results.append(f"{response.text}\nUX Design Rating: {rating}/5")
             progress_bar.progress(progress_step * (i + 1))
             os.remove(temp_img_path)
     return results
@@ -109,13 +106,7 @@ st.markdown("""
 main_container = st.container()
 
 with main_container:
-    header_col1, header_col2 = st.columns([3, 1])
-
-    with header_col1:
-        st.title(":art: UX Design Assistant")
-    with header_col2:
-        st.image("robot.jpg", caption="UX Design Assistant", width=150)
-
+    st.title(":art: UX Design Assistant")
     user_question = st.text_input("You:", placeholder="Ask me anything about UX design...",
                                   help="Start a conversation with your AI design assistant",
                                   key="user_input")
@@ -136,7 +127,7 @@ analysis_options = {
 }
 
 # Define Headline Analysis Options
-Headline_analysis_options = {
+headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
@@ -151,51 +142,76 @@ Headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
+# Analyze headline function (with error handling)
+def analyze_headline(headline_option, input_text):
+    try:
+        if input_text:
+            headline_response = vision_model.generate_content(
+                [headline_analysis_options[headline_option], input_text]
+            )
+            return f"{headline_option}: {headline_response.text}"
+        else:
+            return "Please enter a custom prompt for headline analysis."            
+    except google.api_core.exceptions.InvalidArgument as e:
+        return f"Error: Invalid input format for headline analysis. Details: {e}"
+
 # Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
 
 with col1:
     analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
+    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+    images = [] 
+    if upload_files:
+        # Display uploaded images
+        for uploaded_file in upload_files:
+            image = Image.open(uploaded_file)
+            images.append(image)
+            st.image(image, caption="Uploaded Image", use_column_width=True)
+
     if analysis_choice == "Headline Analysis":
-        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
-    else:
-        upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-        images = []
-        if upload_files:
-            for uploaded_file in upload_files:
-                image = Image.open(uploaded_file)
-                images.append(image)
-            if len(upload_files) > 1:
-                st.write("Image Gallery:")
-                cols = st.columns(len(upload_files))
-                for idx, uploaded_file in enumerate(upload_files):
-                    cols[idx].image(uploaded_file, width=150)
-            else:
-                st.image(upload_files[0], caption="Uploaded Image", width=300)
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
     analyze_button = st.button("Analyze Designs (Standard)")
     custom_analyze_button = st.button("Analyze Designs (Custom)")
 
-    if analyze_button and images:
-        selected_prompt = analysis_options.get(analysis_choice, "")
-        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-        responses = analyze_images(images, prompt)
-        st.subheader("Analysis Results:")
-        for response in responses:
-            st.write(response)
-
-    if custom_analyze_button and images:
-        if input_text:  # Ensure there's a custom prompt
-            custom_prompt = input_text
-            responses = analyze_images(images, custom_prompt)
-            st.subheader("Analysis Results:")
-            for response in responses:
-                st.write(response)
+    if analyze_button:
+        if analysis_choice != "Headline Analysis":
+            if images:  # Ensure there are images to analyze
+                selected_prompt = analysis_options.get(analysis_choice, "")
+                prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+                responses = analyze_images(images, prompt)
+                st.subheader("Analysis Results:")
+                for response in responses:
+                    st.write(response)
         else:
-            st.warning("Please enter a custom prompt for analysis.")
+            if images:  # Ensure there are images to analyze for headline analysis
+                headline_response = analyze_headline(headline_option, input_text)
+                st.subheader("Headline Analysis Results:")
+                st.write(headline_response)  # Display headline analysis result
+            else:
+                st.warning("Please upload images for headline analysis.")
+
+    if custom_analyze_button:
+        if analysis_choice != "Headline Analysis":
+            if images and input_text:  # Ensure there are images and a custom prompt
+                custom_prompt = input_text
+                responses = analyze_images(images, custom_prompt)
+                st.subheader("Analysis Results:")
+                for response in responses:
+                    st.write(response)
+            else:
+                st.warning("Please upload images and enter a custom prompt for analysis.")
+        else:
+            if input_text:  # Ensure there's a custom prompt for headline analysis
+                headline_response = analyze_headline(headline_option, input_text)
+                st.subheader("Custom Headline Analysis Results:")
+                st.write(headline_response)  # Display custom headline analysis result
+            else:
+                st.warning("Please enter a custom prompt for headline analysis.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
