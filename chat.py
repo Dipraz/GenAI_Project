@@ -150,39 +150,87 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": """Headline for Evaluation: [Insert Headline Here]
+    "Image Headline Analysis": """Image Headline Analysis
 
-Instructions:
+Headline for Evaluation: [Insert Headline Here]
 
-Analyze the headline in conjunction with the associated image. Consider how well they complement each other.
-Score each aspect on a scale of 1-5, with clear explanations supporting your scores.
-Evaluation Criteria:
-Keyword Optimization: Are relevant keywords included (for SEO, if applicable)? Do they fit naturally, or are they forced?
-Clarity and Conciseness: Is the headline easy to understand at a glance? Can it be shortened without losing meaning?
-Relevance and Accuracy: Does the headline accurately reflect the image's content and central theme? Does it mislead or create false expectations?
-Emotional Appeal: Does the headline evoke any emotion (curiosity, excitement, interest, etc.)? How does it make the viewer feel?
-Target Audience: Is the style and language appropriate for the intended audience? Does it align with their interests and expectations?
-Benefit Driven: Does the headline convey a clear benefit or value for the viewer?
-Uniqueness: Does the headline stand out as fresh and original? Is it memorable, or does it blend into generic headlines?
-Urgency and Curiosity: Does the headline create a desire to learn more or click? Does it leave the viewer wanting to know the full story?
-Length and Format: Is the length appropriate? Does the formatting enhance readability and impact (e.g., capitalization, punctuation)?
-Brand Consistency: If applicable, does the headline align with the overall brand voice and messaging?
-Response Structure
+Analyze the following aspects, providing a score and explanation for each point:
 
-Headline: (The headline being evaluated)
-Overall Score: [sum of scores/total applicable scores]
-Overall Assessment
-Strengths: (2-3 key strengths)
-Weaknesses: (2-3 areas for improvement)
-Recommendations: (2-3 actionable suggestions to strengthen the headline)
-Detailed Analysis
-Clarity and Conciseness: (Score: + Very Short Explanation)
-Relevance and Accuracy: (Score: + Very Short Explanation)
-... (Continue for each point)
-**Total Score:** [sum of scores/total applicable scores]
+Clarity and Conciseness:
 
-**Overall Assessment:** Summarize strengths and weaknesses. Provide specific recommendations to make the headline more effective, appealing, and optimized. 
-**Summary:** [Provide a short summary based on your all analysis and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] 
+Is the headline immediately understandable?
+Can the main message be grasped quickly and easily?
+Score (1-5):
+Explanation:
+Relevance and Accuracy:
+
+Does the headline accurately describe the image's content and central theme?
+Does it avoid misleading the viewer?
+Score (1-5):
+Explanation:
+Emotional Appeal:
+
+Does the headline trigger an emotional response (curiosity, humor, empathy, etc.)?
+Could it evoke feelings that relate to the image?
+Score (1-5):
+Explanation:
+Target Audience:
+
+Does the language match the intended audience's knowledge level and interests?
+Consider demographics and the platform where the image/headline will appear.
+Score (1-5):
+Explanation:
+Benefit Driven:
+
+Does the headline showcase value for the viewer?
+What will the viewer gain by engaging with the image?
+Score (1-5):
+Explanation:
+Keyword Optimization:
+
+Are relevant keywords included for SEO?
+Do they fit seamlessly within the headline?
+Score (1-5):
+Explanation:
+Uniqueness:
+
+Is the headline fresh and attention-grabbing?
+Does it avoid sounding generic or overused?
+Score (1-5):
+Explanation:
+Urgency and Curiosity:
+
+Does it pique interest and inspire a desire to learn more?
+Does it leave the viewer with a question to be answered?
+Score (1-5):
+Explanation:
+Length and Format:
+
+Is the length appropriate for the platform?
+Does it flow well and enhance readability?
+Score (1-5):
+Explanation:
+Brand Consistency:
+
+Does the voice and style align with the brand's image?
+If unknown, is the tone suitable for a general audience?
+Score (1-5):
+Explanation:
+Power Words:
+
+Does it use vivid verbs, descriptive adjectives, or compelling language?
+Score (1-5):
+Explanation:
+Total Score: [sum of scores/total applicable scores]
+
+Overall Assessment:
+
+Highlight headline strengths and areas for development.
+Offer concrete suggestions to make the headline more effective and impactful.
+Summary:
+
+Provide a concise overview of the analysis.
+Recommend clear, actionable improvements.
 **Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline" and still provide a short explanation as to why it's not applicable."""
 }
 
