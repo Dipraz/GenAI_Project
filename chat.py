@@ -10,6 +10,7 @@ import random
 import re
 import base64
 from io import BytesIO
+import google.api_core.exceptions  # Add this import
 
 # Load environment variables from .env file
 load_dotenv()
@@ -145,9 +146,8 @@ headline_analysis_options = {
 # Analyze headline function (with error handling)
 def analyze_headline(headline_option):
     try:
-        prompt = [headline_analysis_options.get(headline_option, "")]
-        response = vision_model.generate_content(prompt)
-        return f"{headline_option}: {response.text}"
+        headline_response = vision_model.generate_content([headline_analysis_options[headline_option]])
+        return f"{headline_option}: {headline_response.text}"
     except google.api_core.exceptions.InvalidArgument as e:
         return f"Error: Invalid input format for headline analysis. Details: {e}"
 
