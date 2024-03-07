@@ -165,21 +165,35 @@ Headline_analysis_options = {
 
 # Headline Analysis Section
 st.header("Headline Analysis")
-headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
-upload_headline_button = st.file_uploader("Upload Headlines Image:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=False)
-analyze_headline_button = st.button("Analyze Headlines")
 
-if analyze_headline_button and upload_headline_button:
-    headlines_image = Image.open(upload_headline_button)
-    extracted_text = extract_text_from_image(headlines_image)  # Function to extract text from the image
-    headlines = extracted_text.splitlines()
-    if headlines and headline_criteria:
+# Function to read uploaded headlines
+def read_uploaded_headlines(uploaded_file):
+    headlines = []
+    for line in uploaded_file:
+        decoded_line = line.decode("utf-8").strip()
+        headlines.append(decoded_line)
+    return headlines
+
+headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
+upload_headline_button = st.file_uploader("Upload Headlines:", type=["txt"])
+
+if upload_headline_button:
+    headlines = read_uploaded_headlines(upload_headline_button)
+    st.write(f"Number of Headlines Uploaded: {len(headlines)}")
+    st.write("Headlines:")
+    for headline in headlines:
+        st.write(headline)
+
+    analyze_headline_button = st.button("Analyze Headlines")
+
+    if analyze_headline_button and headlines and headline_criteria:
         headline_results = analyze_headlines({criterion: Headline_analysis_options[criterion] for criterion in headline_criteria}, headlines)
         st.subheader("Analysis Results:")
         for result in headline_results:
             st.write(result)
-    else:
-        st.warning("No headlines found in the uploaded image or please select at least one analysis criterion.")
+    elif not headline_criteria:
+        st.warning("Please select at least one analysis criterion.")
+
 
 
 # Image Analysis Features
