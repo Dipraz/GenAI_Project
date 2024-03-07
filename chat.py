@@ -143,15 +143,11 @@ headline_analysis_options = {
 }
 
 # Analyze headline function (with error handling)
-def analyze_headline(headline_option, input_text):
+def analyze_headline(headline_option):
     try:
-        if input_text:
-            headline_response = vision_model.generate_content(
-                [headline_analysis_options[headline_option], input_text]
-            )
-            return f"{headline_option}: {headline_response.text}"
-        else:
-            return "Please enter a custom prompt for headline analysis."            
+        prompt = [headline_analysis_options.get(headline_option, "")]
+        response = vision_model.generate_content(prompt)
+        return f"{headline_option}: {response.text}"
     except google.api_core.exceptions.InvalidArgument as e:
         return f"Error: Invalid input format for headline analysis. Details: {e}"
 
@@ -174,44 +170,22 @@ with col1:
         headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
 
 with col2:
-    input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
-    analyze_button = st.button("Analyze Designs (Standard)")
-    custom_analyze_button = st.button("Analyze Designs (Custom)")
+    analyze_button = st.button("Analyze Designs")
 
     if analyze_button:
-        if analysis_choice != "Headline Analysis":
-            if images:  # Ensure there are images to analyze
+        if images:
+            if analysis_choice != "Headline Analysis":
                 selected_prompt = analysis_options.get(analysis_choice, "")
-                prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-                responses = analyze_images(images, prompt)
+                responses = analyze_images(images, selected_prompt)
                 st.subheader("Analysis Results:")
                 for response in responses:
                     st.write(response)
-        else:
-            if images:  # Ensure there are images to analyze for headline analysis
-                headline_response = analyze_headline(headline_option, input_text)
+            else:
+                headline_response = analyze_headline(headline_option)
                 st.subheader("Headline Analysis Results:")
-                st.write(headline_response)  # Display headline analysis result
-            else:
-                st.warning("Please upload images for headline analysis.")
-
-    if custom_analyze_button:
-        if analysis_choice != "Headline Analysis":
-            if images and input_text:  # Ensure there are images and a custom prompt
-                custom_prompt = input_text
-                responses = analyze_images(images, custom_prompt)
-                st.subheader("Analysis Results:")
-                for response in responses:
-                    st.write(response)
-            else:
-                st.warning("Please upload images and enter a custom prompt for analysis.")
+                st.write(headline_response)
         else:
-            if input_text:  # Ensure there's a custom prompt for headline analysis
-                headline_response = analyze_headline(headline_option, input_text)
-                st.subheader("Custom Headline Analysis Results:")
-                st.write(headline_response)  # Display custom headline analysis result
-            else:
-                st.warning("Please enter a custom prompt for headline analysis.")
+            st.warning("Please upload images for analysis.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
