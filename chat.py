@@ -157,9 +157,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
-    if analysis_choice == "Headline Analysis":
-        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
-    else:
+    if analysis_choice != "Headline Analysis":
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
         images = []
         if upload_files:
@@ -175,27 +173,30 @@ with col1:
                 st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 with col2:
-    input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
-    analyze_button = st.button("Analyze Designs (Standard)")
-    custom_analyze_button = st.button("Analyze Designs (Custom)")
+    if analysis_choice == "Headline Analysis":
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
+    else:
+        input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
+        analyze_button = st.button("Analyze Designs (Standard)")
+        custom_analyze_button = st.button("Analyze Designs (Custom)")
 
-    if analyze_button and images:
-        selected_prompt = analysis_options.get(analysis_choice, "")
-        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-        responses = analyze_images(images, prompt)
-        st.subheader("Analysis Results:")
-        for response in responses:
-            st.write(response)
-
-    if custom_analyze_button and images:
-        if input_text:  # Ensure there's a custom prompt
-            custom_prompt = input_text
-            responses = analyze_images(images, custom_prompt)
+        if analyze_button and images:
+            selected_prompt = analysis_options.get(analysis_choice, "")
+            prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+            responses = analyze_images(images, prompt)
             st.subheader("Analysis Results:")
             for response in responses:
                 st.write(response)
-        else:
-            st.warning("Please enter a custom prompt for analysis.")
+
+        if custom_analyze_button and images:
+            if input_text:  # Ensure there's a custom prompt
+                custom_prompt = input_text
+                responses = analyze_images(images, custom_prompt)
+                st.subheader("Analysis Results:")
+                for response in responses:
+                    st.write(response)
+            else:
+                st.warning("Please enter a custom prompt for analysis.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
