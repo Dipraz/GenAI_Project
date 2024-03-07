@@ -12,7 +12,7 @@ import re
 # Load environment variables from .env file
 load_dotenv()
 
-# Define and initialize the model variable
+# Define and initialize the model variables
 model = genai.GenerativeModel('gemini-pro')
 vision_model = genai.GenerativeModel('gemini-pro-vision')
 
@@ -57,7 +57,7 @@ def calculate_rating(analysis_result, image_path):
     overall_rating = (quality_score + accessibility_score + hierarchy_score) / 3
     return round(overall_rating, 1)
 
-# Enhanced analyze_images function to include scoring
+# General analyze_images function
 def analyze_images(images, prompt):
     results = []
     progress_bar = st.progress(0)
@@ -70,6 +70,23 @@ def analyze_images(images, prompt):
             results.append(response.text)
             rating = calculate_rating(response.text, temp_img_path)
             results.append(f"UX Design Rating: {rating}/5")
+            progress_bar.progress(progress_step * (i + 1))
+            os.remove(temp_img_path)
+    return results
+
+# Specific function for Image Headline Analysis
+def analyze_headline_images(images, criteria):
+    results = []
+    progress_bar = st.progress(0)
+    progress_step = 100 // len(images)
+    for i, image in enumerate(images):
+        with st.spinner(f"Analyzing image headline {i+1}..."):
+            temp_img_path = f"temp_image_{i}.png"
+            image.save(temp_img_path)
+            prompts = [image_headline_analysis_options[crit] for crit in criteria]
+            combined_prompt = " ".join(prompts)
+            response = vision_model.generate_content([combined_prompt, Image.open(temp_img_path)])
+            results.append(response.text)
             progress_bar.progress(progress_step * (i + 1))
             os.remove(temp_img_path)
     return results
@@ -126,7 +143,7 @@ with main_container:
             response_text = get_gemini_response(user_question)
         st.write("AI:", response_text)
 
-# Analysis Options
+# Analysis Options and Headline Analysis Options
 analysis_options = { 
     "Heuristic Evaluation": "Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues?",
     "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
@@ -136,7 +153,6 @@ analysis_options = {
     "Image Headline Analysis": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) "
 }
 
-# Define Headline Analysis Options
 image_headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5)",
@@ -175,27 +191,37 @@ with col1:
 with col2:
     if analysis_choice == "Image Headline Analysis":
         image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
-    input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
-    analyze_button = st.button("Analyze Designs (Standard)")
-    custom_analyze_button = st.button("Analyze Designs (Custom)")
-
-    if analyze_button and images:
-        selected_prompt = analysis_options.get(analysis_choice, "")
-        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-        responses = analyze_images(images, prompt)
-        st.subheader("Analysis Results:")
-        for response in responses:
-            st.write(response)
-
-    if custom_analyze_button and images:
-        if input_text:  # Ensure there's a custom prompt
-            custom_prompt = input_text
-            responses = analyze_images(images, custom_prompt)
+        input_text = st.text_area("Input Prompt:", height=150, help="Enter additional information.")
+        analyze_headline_button = st.button("Analyze Headline")
+        if analyze_headline_button and images and image_headline_options:
+            selected_prompt = [image_headline_analysis_options[crit] for crit in image_headline_options]
+            prompt = " ".join(selected_prompt) + " " + input_text if input_text else " ".join(selected_prompt)
+            responses = analyze_headline_images(images, image_headline_options)
             st.subheader("Analysis Results:")
             for response in responses:
                 st.write(response)
-        else:
-            st.warning("Please enter a custom prompt for analysis.")
+    else:
+        input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
+        analyze_button = st.button("Analyze Designs (Standard)")
+        custom_analyze_button = st.button("Analyze Designs (Custom)")
+
+        if analyze_button and images:
+            selected_prompt = analysis_options.get(analysis_choice, "")
+            prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+            responses = analyze_images(images, prompt)
+            st.subheader("Analysis Results:")
+            for response in responses:
+                st.write(response)
+
+        if custom_analyze_button and images:
+            if input_text:  # Ensure there's a custom prompt
+                custom_prompt = input_text
+                responses = analyze_images(images, custom_prompt)
+                st.subheader("Analysis Results:")
+                for response in responses:
+                    st.write(response)
+            else:
+                st.warning("Please enter a custom prompt for analysis.")
 
 # Run the Streamlit app
 if __name__ == "__main__":
