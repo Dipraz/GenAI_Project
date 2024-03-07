@@ -145,92 +145,84 @@ with main_container:
 
 # Analysis Options and Headline Analysis Options
 analysis_options = { 
-    "Heuristic Evaluation": "Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues?",
-    "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
-    "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
-    "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
-    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
+    "Heuristic Evaluation": "Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues? providing a Score (1-5): and Explanation based on score:",
+    "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.providing a Score (1-5): and Explanation based on score:",
+    "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?providing a Score (1-5): and Explanation based on score:",
+    "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?providing a Score (1-5): and Explanation based on score:",
+    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design. providing a Score (1-5): and Explanation based on score:",
     "Image Headline Analysis": """Image Headline Analysis
-
 Headline for Evaluation: [Insert Headline Here]
 
 Analyze the following aspects, providing a score and explanation for each point:
 
 Clarity and Conciseness:
-
-Is the headline immediately understandable?
-Can the main message be grasped quickly and easily?
+Is the headline immediately understandable? Can the core idea be grasped at a glance?
+Does it avoid ambiguity and complex terminology?
 Score (1-5):
 Explanation:
 Relevance and Accuracy:
-
-Does the headline accurately describe the image's content and central theme?
-Does it avoid misleading the viewer?
+Does the headline accurately reflect the dominant elements in the image (objects, actions, setting)?
+Does it capture the overall theme or message conveyed by the visual?
 Score (1-5):
 Explanation:
 Emotional Appeal:
-
-Does the headline trigger an emotional response (curiosity, humor, empathy, etc.)?
-Could it evoke feelings that relate to the image?
+Does the headline evoke an emotional response (excitement, curiosity, humor, surprise, etc.)?
+Does it use sensory language or vivid descriptions?
 Score (1-5):
 Explanation:
 Target Audience:
-
-Does the language match the intended audience's knowledge level and interests?
-Consider demographics and the platform where the image/headline will appear.
+Is the language and tone appropriate for the intended audience (consider demographics, interests, etc.)?
+Would the headline accurately draw the attention of the target viewer?
 Score (1-5):
 Explanation:
 Benefit Driven:
-
-Does the headline showcase value for the viewer?
-What will the viewer gain by engaging with the image?
+Does the headline highlight a benefit or value for the reader/viewer?
+Does it pique interest by promising insight or entertainment?
 Score (1-5):
 Explanation:
 Keyword Optimization:
-
-Are relevant keywords included for SEO?
-Do they fit seamlessly within the headline?
+Are relevant keywords included for SEO (without keyword stuffing)?
+Could additional keywords improve discoverability for the target audience?
 Score (1-5):
 Explanation:
 Uniqueness:
-
-Is the headline fresh and attention-grabbing?
-Does it avoid sounding generic or overused?
+Does the headline stand out as original or attention-grabbing?
+Does it avoid cliches or overly generic phrasing?
 Score (1-5):
 Explanation:
 Urgency and Curiosity:
-
-Does it pique interest and inspire a desire to learn more?
-Does it leave the viewer with a question to be answered?
+Does the headline inspire a desire to click or learn more?
+Does it utilize questions, hints at a story, or create a sense of intrigue?
 Score (1-5):
 Explanation:
 Length and Format:
-
-Is the length appropriate for the platform?
-Does it flow well and enhance readability?
+Is the length appropriate for the platform or medium?
+Does the format enhance readability (capitalization, punctuation, etc.)?
 Score (1-5):
 Explanation:
 Brand Consistency:
-
-Does the voice and style align with the brand's image?
-If unknown, is the tone suitable for a general audience?
+Does the headline align with the brand's voice and style (if applicable)?
+Is it consistent with the branding in the image itself?
 Score (1-5):
 Explanation:
 Power Words:
-
-Does it use vivid verbs, descriptive adjectives, or compelling language?
+Are impactful verbs or adjectives used to create a stronger impression?
 Score (1-5):
 Explanation:
 Total Score: [sum of scores/total applicable scores]
 
 Overall Assessment:
 
-Highlight headline strengths and areas for development.
-Offer concrete suggestions to make the headline more effective and impactful.
-Summary:
+Summarize the headline's major strengths and areas for improvement.
+Provide actionable recommendations for greater impact and effectiveness.
+Specific Recommendations:
 
-Provide a concise overview of the analysis.
-Recommend clear, actionable improvements.
+Offer 2-3 alternative headline suggestions that address weaknesses and aim to increase engagement.
+Key Improvements:
+
+Visual Focus: Emphasizes analysis of the image itself, not just textual headlines
+Actionable Feedback: Provides alternative headline suggestions.
+SEO Awareness: Maintains focus on keywords for optimization.
 **Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline" and still provide a short explanation as to why it's not applicable."""
 }
 
