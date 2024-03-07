@@ -172,11 +172,12 @@ with col1:
             else:
                 st.image(upload_files[0], caption="Uploaded Image", width=300)
 
-with col2:
     if analysis_choice == "Image Headline Analysis":
         st.header("Image Headline Analysis Criteria")
         image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
-    else:
+
+with col2:
+    if analysis_choice != "Image Headline Analysis":
         input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
         analyze_button = st.button("Analyze Designs (Standard)")
         custom_analyze_button = st.button("Analyze Designs (Custom)")
