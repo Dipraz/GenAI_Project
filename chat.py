@@ -150,6 +150,14 @@ headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
+# Analyze headline function
+def analyze_headline(headline_option, input_text):
+    if input_text:  # Ensure there's a custom prompt for headline analysis
+        headline_response = vision_model.generate_content([headline_analysis_options[headline_option], input_text])
+        return f"{headline_option}: {headline_response.text}"  # Display custom headline analysis result
+    else:
+        return "Please enter a custom prompt for headline analysis."
+
 # Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
