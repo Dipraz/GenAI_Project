@@ -1,13 +1,7 @@
 import google.generativeai as genai
 from dotenv import load_dotenv
 import streamlit as st
-import os
-import time
-from PIL import Image, ImageStat
-import numpy as np
-import cv2
-import random
-import re
+from PIL import Image
 import base64
 from io import BytesIO
 
@@ -15,61 +9,14 @@ from io import BytesIO
 load_dotenv()
 
 # Define and initialize the model variable
-model = genai.GenerativeModel('gemini-pro')
 vision_model = genai.GenerativeModel('gemini-pro-vision')
 
-# Function to load OpenAI model and get responses
-def get_gemini_response(question):
-    full_input = f"{UX_DESIGN_PROMPT}\n{question}"
-    with st.spinner("AI is typing..."):
-        time.sleep(3)  # Simulate model response time
-        response = model.generate_content(full_input)
-    return response.text
-
-# Define Scoring Functions
-def calculate_image_quality_score(analysis_result, image_path):
-    # Implement your image quality scoring logic here
-    pass
-
-def calculate_accessibility_score(analysis_result, image_path):
-    # Implement your accessibility scoring logic here
-    pass
-
-def calculate_visual_hierarchy_score(analysis_result, image_path):
-    # Implement your visual hierarchy scoring logic here
-    pass
-
-def calculate_rating(analysis_result, image_path):
-    # Combine quality, accessibility, and hierarchy scores to calculate overall rating
-    pass
-
-# Image Conversion Helper
+# Function to convert image to base64
 def image_to_base64(image):
     buffered = BytesIO()
-    image.save(buffered, format="JPEG") 
+    image.save(buffered, format="JPEG")
     img_str = base64.b64encode(buffered.getvalue()).decode()
     return img_str
-
-# Enhanced analyze_images function to include scoring
-def analyze_images(images, prompt):
-    results = []
-    progress_bar = st.progress(0)
-    progress_step = 100 // len(images)
-
-    for i, image in enumerate(images):
-        with st.spinner(f"Analyzing image {i+1}..."):
-            temp_img_path = f"temp_image_{i}.png"
-            image.save(temp_img_path)
-            
-            # Convert image to base64 for model input
-            image_base64 = image_to_base64(image) 
-
-            response = vision_model.generate_content([prompt, image_base64])
-            rating = calculate_rating(response.text, temp_img_path)
-            results.append(f"{response.text}\nUX Design Rating: {rating}/5")
-            progress_bar.progress(progress_step * (i + 1))
-            os.remove(temp_img_path)
-    return results
 
 # Define UX design prompt
 UX_DESIGN_PROMPT = """
@@ -114,8 +61,9 @@ with main_container:
 
     if submit_button:
         with st.spinner("AI is thinking..."):
-            response_text = get_gemini_response(user_question)
-        st.write("AI:", response_text)
+            # Generating response using gemini-pro model
+            response = vision_model.generate_content([UX_DESIGN_PROMPT, user_question])
+        st.write("AI:", response.text)
 
 # Analysis Options
 analysis_options = { 
@@ -141,19 +89,6 @@ headline_analysis_options = {
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
-
-# Analyze headline function (with error handling)
-def analyze_headline(headline_option, input_text):
-    try:
-        if input_text:
-            headline_response = vision_model.generate_content(
-                [headline_analysis_options[headline_option], input_text]
-            )
-            return f"{headline_option}: {headline_response.text}"
-        else:
-            return "Please enter a custom prompt for headline analysis."            
-    except google.api_core.exceptions.InvalidArgument as e:
-        return f"Error: Invalid input format for headline analysis. Details: {e}"
 
 # Image Analysis Features
 st.header("Image Analysis")
@@ -189,9 +124,11 @@ with col2:
                     st.write(response)
         else:
             if images:  # Ensure there are images to analyze for headline analysis
-                headline_response = analyze_headline(headline_option, input_text)
+                # Generate content based on the selected headline analysis option
+                prompt = headline_analysis_options.get(headline_option, "")
+                responses = vision_model.generate_content([prompt])
                 st.subheader("Headline Analysis Results:")
-                st.write(headline_response)  # Display headline analysis result
+                st.write(responses.text)  # Display headline analysis result
             else:
                 st.warning("Please upload images for headline analysis.")
 
@@ -207,9 +144,11 @@ with col2:
                 st.warning("Please upload images and enter a custom prompt for analysis.")
         else:
             if input_text:  # Ensure there's a custom prompt for headline analysis
-                headline_response = analyze_headline(headline_option, input_text)
+                # Generate content based on the selected headline analysis option
+                prompt = headline_analysis_options.get(headline_option, "")
+                responses = vision_model.generate_content([prompt])
                 st.subheader("Custom Headline Analysis Results:")
-                st.write(headline_response)  # Display custom headline analysis result
+                st.write(responses.text)  # Display custom headline analysis result
             else:
                 st.warning("Please enter a custom prompt for headline analysis.")
 
