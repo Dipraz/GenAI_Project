@@ -138,18 +138,18 @@ analysis_options = {
 
 # Define Headline Analysis Options
 image_headline_analysis_options = {
-    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
-    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
-    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
-    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5): ",
-    "Uniqueness": "How unique or original is the headline? Score (1-5): ",
-    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5): ",
-    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5): ",
-    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5): ",
-    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5): ",
-    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5):",
-    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
-    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
+    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) ",
+    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5)",
+    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5)",
+    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5)",
+    "Uniqueness": "How unique or original is the headline? Score (1-5)",
+    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5)",
+    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5)",
+    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5)",
+    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5)",
+    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5)",
+    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5)",
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)"
 }
 
 # Image Analysis Features
