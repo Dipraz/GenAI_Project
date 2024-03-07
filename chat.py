@@ -156,12 +156,12 @@ st.header("Image Analysis")
 col1, col2 = st.columns(2)
 
 with col1:
-    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
-    if input_prompt == "Headline Analysis":
-        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
-    else:
+    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
+    upload_files = None  # Initialize variable for file uploader outside of the if-statement
+    images = []  # Initialize list for storing images outside of the if-statement
+    if analysis_choice != "Headline Analysis":
+        # Only show the upload option if not doing Headline Analysis
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-        images = []
         if upload_files:
             for uploaded_file in upload_files:
                 image = Image.open(uploaded_file)
@@ -173,29 +173,42 @@ with col1:
                     cols[idx].image(uploaded_file, width=150)
             else:
                 st.image(upload_files[0], caption="Uploaded Image", width=300)
+    else:
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
     analyze_button = st.button("Analyze Designs (Standard)")
     custom_analyze_button = st.button("Analyze Designs (Custom)")
 
-    if analyze_button and images:
-        selected_prompt = analysis_options.get(input_prompt, "")
-        prompt = selected_prompt + " " + input_text if input_text else selected_prompt
-        responses = analyze_images(images, prompt)
-        st.subheader("Analysis Results:")
-        for response in responses:
-            st.write(response)
-
-    if custom_analyze_button and images:
-        if input_text:  # Ensure there's a custom prompt
-            custom_prompt = input_text
-            responses = analyze_images(images, custom_prompt)
+    if analyze_button:
+        if analysis_choice == "Headline Analysis":
+            # Assume there's some function or logic here to handle headline analysis
+            # For example:
+            st.subheader("Analysis Results:")
+            st.write(f"{headline_option}: {Headline_analysis_options[headline_option]}")
+        elif images:
+            selected_prompt = analysis_options.get(analysis_choice, "")
+            prompt = selected_prompt + " " + input_text if input_text else selected_prompt
+            responses = analyze_images(images, prompt)
             st.subheader("Analysis Results:")
             for response in responses:
                 st.write(response)
-        else:
-            st.warning("Please enter a custom prompt for analysis.")
+
+    if custom_analyze_button:
+        if analysis_choice != "Headline Analysis" and images:
+            if input_text:  # Ensure there's a custom prompt
+                custom_prompt = input_text
+                responses = analyze_images(images, custom_prompt)
+                st.subheader("Analysis Results:")
+                for response in responses:
+                    st.write(response)
+            else:
+                st.warning("Please enter a custom prompt for analysis.")
+        elif analysis_choice == "Headline Analysis":
+            # Custom analysis for headline could go here, currently just displaying a message
+            st.warning("Custom headline analysis is not implemented yet.")
+
 
 # Run the Streamlit app
 if __name__ == "__main__":
