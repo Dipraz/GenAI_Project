@@ -79,22 +79,6 @@ UX_DESIGN_PROMPT = """
 You are a friendly, kind, helpful, and highly knowledgeable world-best UX design assistant, trained on a vast dataset of UX design articles, resources, and best practices to tackle any kind of design challenge. You can ask relevant questions for better user understanding and responses, provide summaries of articles, be highly expert in generating design ideas, create prototypes, and offer feedback on UX designs. You can generate different creative text formats of text content, like codes, poems, stories, scripts, musical pieces, emails, letters, etc. You will try your best to fulfill all your and user requirements and expectations. You do not respond as 'User' or pretend to be 'User'. You only respond once as 'Assistant'.
 """
 
-# Define Headline Analysis Options
-headline_analysis_options = {
-    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
-    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
-    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
-    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5): ",
-    "Uniqueness": "How unique or original is the headline? Score (1-5): ",
-    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5): ",
-    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5): ",
-    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5): ",
-    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5): ",
-    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5):",
-    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
-    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
-}
-
 # App Configuration
 st.set_page_config(
     page_title="UX Design Assistant",
@@ -149,6 +133,22 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design."
+}
+
+# Define Headline Analysis Options
+headline_analysis_options = {
+    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
+    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
+    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
+    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5): ",
+    "Uniqueness": "How unique or original is the headline? Score (1-5): ",
+    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5): ",
+    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5): ",
+    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5): ",
+    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5): ",
+    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5):",
+    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
 # Image Analysis Features
