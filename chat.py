@@ -150,46 +150,36 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": """**Image Headline Analysis**
+    "Image Headline Analysis": """Headline for Evaluation: [Insert Headline Here]
 
-**Headline for Evaluation:** [Insert Headline Here]
+Instructions:
 
-**Analyze the following aspects, providing a score and explanation for each points:**
+Analyze the headline in conjunction with the associated image. Consider how well they complement each other.
+Score each aspect on a scale of 1-5, with clear explanations supporting your scores.
+Evaluation Criteria:
 
-* **Clarity and Conciseness:** Is the headline immediately understandable? Can the main point be grasped at a glance?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Relevance and Accuracy:** How accurately does the headline reflect the image's content, theme, or message?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Emotional Appeal:** Does the headline evoke curiosity, excitement, or any other emotional response?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Target Audience:** Is the language and tone appropriate for the intended audience (consider demographics, interests, etc.)? 
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Benefit-Driven:** Does the headline highlight a clear benefit or value for the reader?
-    * **Score (1-5):**
-    * **Explanation:** 
-* **Keyword Optimization:** Are relevant keywords included for SEO? Do they fit naturally?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Uniqueness:** Does the headline stand out as original or attention-grabbing?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Urgency and Curiosity:** Does the headline inspire a desire to click or learn more?
-    * **Score (1-5):** 
-    * **Explanation:** 
-* **Length and Format:** Is the length appropriate? Does the format enhance readability and impact? 
-    * **Score (1-5):** 
-    * **Explanation:** 
-* **Brand Consistency:**  If applicable, does the headline align with the brand's voice and style?
-    * **Score (1-5):** 
-    * **Explanation:**
-* **Power Words:** Are strong verbs or impactful language used?
-    * **Score (1-5):** 
-    * **Explanation:**
+Clarity and Conciseness: Is the headline easy to understand at a glance? Can it be shortened without losing meaning?
+Relevance and Accuracy: Does the headline accurately reflect the image's content and central theme? Does it mislead or create false expectations?
+Emotional Appeal: Does the headline evoke any emotion (curiosity, excitement, interest, etc.)? How does it make the viewer feel?
+Target Audience: Is the style and language appropriate for the intended audience? Does it align with their interests and expectations?
+Benefit Driven: Does the headline convey a clear benefit or value for the viewer?
+Keyword Optimization: Are relevant keywords included (for SEO, if applicable)? Do they fit naturally, or are they forced?
+Uniqueness: Does the headline stand out as fresh and original? Is it memorable, or does it blend into generic headlines?
+Urgency and Curiosity: Does the headline create a desire to learn more or click? Does it leave the viewer wanting to know the full story?
+Length and Format: Is the length appropriate? Does the formatting enhance readability and impact (e.g., capitalization, punctuation)?
+Brand Consistency: If applicable, does the headline align with the overall brand voice and messaging?
+Response Structure
 
+Headline: (The headline being evaluated)
+Overall Score: [sum of scores/total applicable scores]
+Overall Assessment
+Strengths: (2-3 key strengths)
+Weaknesses: (2-3 areas for improvement)
+Recommendations: (2-3 actionable suggestions to strengthen the headline)
+Detailed Analysis
+Clarity and Conciseness: (Score + Explanation)
+Relevance and Accuracy: (Score + Explanation)
+... (Continue for each point)
 **Total Score:** [sum of scores/total applicable scores]
 
 **Overall Assessment:** Summarize strengths and weaknesses. Provide specific recommendations to make the headline more effective, appealing, and optimized. 
