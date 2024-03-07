@@ -151,6 +151,33 @@ Headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
+# Function to analyze headlines based on selected criteria and input prompt
+def analyze_headlines(criteria, prompt):
+    results = []
+    for criterion, prompt_suffix in criteria.items():
+        full_prompt = prompt + " " + prompt_suffix
+        with st.spinner(f"Analyzing headline for '{criterion}'..."):
+            time.sleep(2)  # Simulate analysis time
+            response = get_gemini_response(full_prompt)
+            results.append(f"{criterion}: {response}")
+    return results
+
+# Headline Analysis Section
+st.header("Headline Analysis")
+headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
+headline_prompt = st.text_input("Input Prompt:", help="Enter a prompt for headline analysis.")
+analyze_headline_button = st.button("Analyze Headline")
+
+if analyze_headline_button:
+    if headline_prompt and headline_criteria:
+        headline_results = analyze_headlines({criterion: Headline_analysis_options[criterion] for criterion in headline_criteria}, headline_prompt)
+        st.subheader("Analysis Results:")
+        for result in headline_results:
+            st.write(result)
+    else:
+        st.warning("Please provide both a headline prompt and select at least one analysis criterion.")
+
+
 # Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
