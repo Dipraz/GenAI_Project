@@ -157,7 +157,7 @@ col1, col2 = st.columns(2)
 
 with col1:
     analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Image Headline Analysis"])
-    if analysis_choice != "Headline Analysis":
+    if analysis_choice != "Image Headline Analysis":
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
         images = []
         if upload_files:
@@ -174,7 +174,7 @@ with col1:
 
 with col2:
     if analysis_choice == "Image Headline Analysis":
-        image_headline_option = st.selectbox("Select Image Headline Analysis Criterion:", list(image_headline_analysis_options.keys()))
+        image_headline_options = st.multiselect("Select Image Headline Analysis Criteria:", list(image_headline_analysis_options.keys()))
     else:
         input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
         analyze_button = st.button("Analyze Designs (Standard)")
