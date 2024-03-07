@@ -275,7 +275,80 @@ with col2:
             for response in responses:
                 st.write(response)
         elif default_analyze_button and images:
-            prompt = "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores]"
+            prompt = """Image Headline Analysis
+Headline for Evaluation: [Insert Headline Here]
+
+Analyze the following aspects, providing a score and explanation for each point:
+
+Clarity and Conciseness:
+Is the headline immediately understandable? Can the core idea be grasped at a glance?
+Does it avoid ambiguity and complex terminology?
+Score (1-5):
+Explanation:
+Relevance and Accuracy:
+Does the headline accurately reflect the dominant elements in the image (objects, actions, setting)?
+Does it capture the overall theme or message conveyed by the visual?
+Score (1-5):
+Explanation:
+Emotional Appeal:
+Does the headline evoke an emotional response (excitement, curiosity, humor, surprise, etc.)?
+Does it use sensory language or vivid descriptions?
+Score (1-5):
+Explanation:
+Target Audience:
+Is the language and tone appropriate for the intended audience (consider demographics, interests, etc.)?
+Would the headline accurately draw the attention of the target viewer?
+Score (1-5):
+Explanation:
+Benefit Driven:
+Does the headline highlight a benefit or value for the reader/viewer?
+Does it pique interest by promising insight or entertainment?
+Score (1-5):
+Explanation:
+Keyword Optimization:
+Are relevant keywords included for SEO (without keyword stuffing)?
+Could additional keywords improve discoverability for the target audience?
+Score (1-5):
+Explanation:
+Uniqueness:
+Does the headline stand out as original or attention-grabbing?
+Does it avoid cliches or overly generic phrasing?
+Score (1-5):
+Explanation:
+Urgency and Curiosity:
+Does the headline inspire a desire to click or learn more?
+Does it utilize questions, hints at a story, or create a sense of intrigue?
+Score (1-5):
+Explanation:
+Length and Format:
+Is the length appropriate for the platform or medium?
+Does the format enhance readability (capitalization, punctuation, etc.)?
+Score (1-5):
+Explanation:
+Brand Consistency:
+Does the headline align with the brand's voice and style (if applicable)?
+Is it consistent with the branding in the image itself?
+Score (1-5):
+Explanation:
+Power Words:
+Are impactful verbs or adjectives used to create a stronger impression?
+Score (1-5):
+Explanation:
+Total Score: [sum of scores/total applicable scores]
+
+Overall Assessment:
+
+Summarize the headline's major strengths and areas for improvement.
+Provide actionable recommendations for greater impact and effectiveness.
+Specific Recommendations:
+
+Offer 2-3 alternative headline suggestions that address weaknesses and aim to increase engagement.
+Key Improvements:
+
+Visual Focus: Emphasizes analysis of the image itself, not just textual headlines
+Actionable Feedback: Provides alternative headline suggestions.
+SEO Awareness: Maintains focus on keywords for optimization.
+**Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline" and still provide a short explanation as to why it's not applicable."""
             responses = analyze_images(images, prompt)
             st.subheader("Default Analysis Results:")
             for response in responses:
