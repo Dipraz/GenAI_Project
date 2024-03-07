@@ -75,7 +75,7 @@ def analyze_images(images, prompt):
     return results
 
 # Function to analyze headlines based on selected criteria and input prompt
-def analyze_headlines(criteria, prompt):
+def analyze_headlines(images, prompt):
     results = []
     for criterion, prompt_suffix in criteria.items():
         full_prompt = prompt + " " + prompt_suffix
@@ -163,7 +163,7 @@ Headline_analysis_options = {
 }
 
 # Function to analyze headlines based on selected criteria and input prompt
-def analyze_headlines(criteria, prompt):
+def analyze_headlines(images, prompt):
     results = []
     for criterion, prompt_suffix in criteria.items():
         full_prompt = prompt + " " + prompt_suffix
