@@ -150,6 +150,20 @@ Headline_analysis_options = {
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
+    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options,Headline_analysis_options.keys()))
+    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+    images = []
+    if upload_files:
+        for uploaded_file in upload_files:
+            image = Image.open(uploaded_file)
+            images.append(image)
+        if len(upload_files) > 1:
+            st.write("Image Gallery:")
+            cols = st.columns(len(upload_files))
+            for idx, uploaded_file in enumerate(upload_files):
+                cols[idx].image(uploaded_file, width=150)
+        else:
+            st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 # Image Analysis Features
 st.header("Image Analysis")
