@@ -174,6 +174,7 @@ with col1:
 
     if analysis_choice == "Headline Analysis":
         headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
+        input_text = st.text_area("Enter Headline:", height=150, help="Enter the headline for analysis.")
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
