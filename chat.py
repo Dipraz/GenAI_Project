@@ -145,7 +145,7 @@ with main_container:
 
 # Analysis Options and Headline Analysis Options
 analysis_options = { 
-    "Heuristic Evaluation": "Analyze this design according to Nielsen's usability heuristics. Focus specifically on [heuristic name, e.g., 'error prevention']. Provide a score (1-5) and a detailed explanation based on the score. Also, suggest one actionable improvement.",
+    "Heuristic Evaluation": "Analyze this design according to Nielsen's usability heuristics. Focus specifically on [heuristic name, e.g., 'error prevention']. Provide a score (1-5) and a detailed explanation based on the score. Also, suggest one actionable improvement.Total Score: [sum of scores/total applicable scores]",
     "Accessibility Analysis": "Analyze this design for accessibility issues, particularly those that might affect people with visual impairments. Provide a score (1-5) and an explanation. Give 2-3 specific examples of potential barriers and how to make them more inclusive.",
     "Visual Hierarchy Review": "Assess the visual hierarchy of this design. Does it guide the user's eye from the most important element to the least important? Provide a score (1-5) with an explanation. Suggest 2 changes to improve the hierarchy.",
     "Comparative Analysis": "Compare design option A [Image A] and design option B [Image B]. Evaluate them based on clarity and intuitiveness. Provide a score (1-5) for each, and explain why you chose those scores.",
