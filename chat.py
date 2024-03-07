@@ -150,7 +150,9 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": """**Headline for Evaluation:** [Insert Headline Here]
+    "Image Headline Analysis": """**Image Headline Analysis**
+
+**Headline for Evaluation:** [Insert Headline Here]
 
 **Analyze the following aspects, providing a score and explanation for each:**
 
@@ -191,8 +193,8 @@ analysis_options = {
 **Total Score:** [sum of scores/total applicable scores]
 
 **Overall Assessment:** Summarize strengths and weaknesses. Provide specific recommendations to make the headline more effective, appealing, and optimized. 
-
-**Summary:** [Provide a short summary based on your all analysis and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] """
+**Summary:** [Provide a short summary based on your all analysis and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] 
+**Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline."""
 }
 
 image_headline_analysis_options = {
