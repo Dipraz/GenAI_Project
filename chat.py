@@ -166,7 +166,7 @@ Headline_analysis_options = {
 # Headline Analysis Section
 st.header("Headline Analysis")
 headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
-upload_headline_button = st.file_uploader("Upload Headlines:", type=["txt"], accept_multiple_files=False)
+upload_headline_button = st.file_uploader("Upload Headlines:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
 analyze_headline_button = st.button("Analyze Headlines")
 
 if analyze_headline_button and upload_headline_button:
