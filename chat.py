@@ -147,7 +147,7 @@ def analyze_headline(headline_option, input_text):
     try:
         if input_text:
             headline_response = vision_model.generate_content(
-                [headline_analysis_options[headline_option], input_text]
+                [headline_analysis_options[headline_option]]
             )
             return f"{headline_option}: {headline_response.text}"
         else:
