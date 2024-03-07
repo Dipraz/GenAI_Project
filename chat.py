@@ -147,8 +147,8 @@ analysis_options = {
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design."
 }
 
-# Define Headline Analysis Options
-Headline_analysis_options = {
+# Define Image Headline Analysis Options
+Image_Headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
@@ -163,9 +163,6 @@ Headline_analysis_options = {
     "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
 }
 
-# Headline Analysis Section
-st.header("Headline Analysis")
-
 # Function to read uploaded headlines
 def read_uploaded_headlines(uploaded_file):
     headlines = []
@@ -174,8 +171,11 @@ def read_uploaded_headlines(uploaded_file):
         headlines.append(decoded_line)
     return headlines
 
-headline_criteria = st.multiselect("Select Criteria:", list(Headline_analysis_options.keys()))
-upload_headline_button = st.file_uploader("Upload Headlines:",type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+# Image Headline Analysis Section
+st.header("Image Headline Analysis")
+
+headline_criteria = st.multiselect("Select Criteria:", list(Image_Headline_analysis_options.keys()))
+upload_headline_button = st.file_uploader("Upload Headlines:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
 
 if upload_headline_button:
     headlines = read_uploaded_headlines(upload_headline_button)
@@ -187,14 +187,12 @@ if upload_headline_button:
     analyze_headline_button = st.button("Analyze Headlines")
 
     if analyze_headline_button and headlines and headline_criteria:
-        headline_results = analyze_headlines({criterion: Headline_analysis_options[criterion] for criterion in headline_criteria}, headlines)
+        headline_results = analyze_headlines({criterion: Image_Headline_analysis_options[criterion] for criterion in headline_criteria}, headlines)
         st.subheader("Analysis Results:")
         for result in headline_results:
             st.write(result)
     elif not headline_criteria:
         st.warning("Please select at least one analysis criterion.")
-
-
 
 # Image Analysis Features
 st.header("Image Analysis")
