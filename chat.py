@@ -157,13 +157,12 @@ Instructions:
 Analyze the headline in conjunction with the associated image. Consider how well they complement each other.
 Score each aspect on a scale of 1-5, with clear explanations supporting your scores.
 Evaluation Criteria:
-
+Keyword Optimization: Are relevant keywords included (for SEO, if applicable)? Do they fit naturally, or are they forced?
 Clarity and Conciseness: Is the headline easy to understand at a glance? Can it be shortened without losing meaning?
 Relevance and Accuracy: Does the headline accurately reflect the image's content and central theme? Does it mislead or create false expectations?
 Emotional Appeal: Does the headline evoke any emotion (curiosity, excitement, interest, etc.)? How does it make the viewer feel?
 Target Audience: Is the style and language appropriate for the intended audience? Does it align with their interests and expectations?
 Benefit Driven: Does the headline convey a clear benefit or value for the viewer?
-Keyword Optimization: Are relevant keywords included (for SEO, if applicable)? Do they fit naturally, or are they forced?
 Uniqueness: Does the headline stand out as fresh and original? Is it memorable, or does it blend into generic headlines?
 Urgency and Curiosity: Does the headline create a desire to learn more or click? Does it leave the viewer wanting to know the full story?
 Length and Format: Is the length appropriate? Does the formatting enhance readability and impact (e.g., capitalization, punctuation)?
