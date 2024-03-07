@@ -150,7 +150,7 @@ analysis_options = {
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
     "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-    "Image Headline Analysis": "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores] "
+    "Image Headline Analysis": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5) "
 }
 
 image_headline_analysis_options = {
@@ -165,17 +165,35 @@ image_headline_analysis_options = {
     "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5)",
     "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5)",
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5)",
-    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)"
+    "Use of Power Words": "Image Headline Analysis": "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores]"
 }
 
-# In the section where you have the Image Analysis Features
+# Image Analysis Features
+st.header("Image Analysis")
+analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
+col1, col2 = st.columns(2)
+
+with col1:
+    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+    images = []
+    if upload_files:
+        for uploaded_file in upload_files:
+            image = Image.open(uploaded_file)
+            images.append(image)
+        if len(upload_files) > 1:
+            st.write("Image Gallery:")
+            cols = st.columns(len(upload_files))
+            for idx, uploaded_file in enumerate(upload_files):
+                cols[idx].image(uploaded_file, width=150)
+        else:
+            st.image(upload_files[0], caption="Uploaded Image", width=300)
+
 with col2:
     if analysis_choice == "Image Headline Analysis":
         image_headline_options = st.multiselect("Select Criteria:", list(image_headline_analysis_options.keys()))
         input_text = st.text_area("Input Prompt:", height=150, help="Enter additional information.")
         analyze_headline_button = st.button("Analyze Headline")
-        general_analyze_headline_button = st.button("General Image Headline Analysis")  # New button for general analysis
-        
+        default_analyze_button = st.button("Default Headline Analysis")
         if analyze_headline_button and images and image_headline_options:
             selected_prompt = [image_headline_analysis_options[crit] for crit in image_headline_options]
             prompt = " ".join(selected_prompt) + " " + input_text if input_text else " ".join(selected_prompt)
@@ -183,11 +201,10 @@ with col2:
             st.subheader("Analysis Results:")
             for response in responses:
                 st.write(response)
-                
-        if general_analyze_headline_button and images:  # Check if the general analysis button is pressed
-            general_prompt = "Does the headline clearly and concisely convey the main point of the blog? Score (1-5)"
-            responses = analyze_images(images, general_prompt)  # Use the general analyze_images function for consistency
-            st.subheader("General Image Headline Analysis Results:")
+        elif default_analyze_button and images:
+            prompt = "Image Headline Analysis": "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores]"
+            responses = analyze_images(images, prompt)
+            st.subheader("Default Analysis Results:")
             for response in responses:
                 st.write(response)
     else:
@@ -212,7 +229,6 @@ with col2:
                     st.write(response)
             else:
                 st.warning("Please enter a custom prompt for analysis.")
-
 
 # Run the Streamlit app
 if __name__ == "__main__":
