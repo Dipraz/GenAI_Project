@@ -1,13 +1,12 @@
+# Import necessary libraries
 import google.generativeai as genai
 from dotenv import load_dotenv
 import streamlit as st
 import os
 import time
 from PIL import Image, ImageStat
-import numpy as np
 import cv2
 import random
-import re
 
 # Load environment variables from .env file
 load_dotenv()
