@@ -165,7 +165,7 @@ image_headline_analysis_options = {
     "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5)",
     "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5)",
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5)",
-    "Use of Power Words": "Image Headline Analysis": "Analyze this image and its accompanying headline. Evaluate the following aspects of the headline, providing a score (1-5) for each:* **Clarity and Conciseness:** Is the headline easy to understand and get the main point at a glance?* **Relevance and Accuracy:** Does the headline accurately reflect the content or message conveyed by the image?* **Emotional Appeal:** Does the headline evoke any emotion or curiosity? * **Target Audience:**  Does the language and tone of the headline seem appropriate for the intended audience (consider demographics, interests, etc., if you have that information)?* **Benefit-Driven:** Does the headline clearly highlight a benefit or value proposition for the reader?Provide a brief explanation for each score and suggest any specific changes to make the headline stronger.**Total Score:** [sum of scores/total applicable scores]"
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)""
 }
 
 # Image Analysis Features
