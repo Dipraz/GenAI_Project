@@ -165,7 +165,7 @@ image_headline_analysis_options = {
     "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5)",
     "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5)",
     "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5)",
-    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)""
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5)"
 }
 
 # Image Analysis Features
