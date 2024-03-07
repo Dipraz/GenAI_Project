@@ -136,7 +136,7 @@ analysis_options = {
 }
 
 # Define Headline Analysis Options
-Headline_analysis_options = {
+headline_analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
@@ -158,7 +158,7 @@ col1, col2 = st.columns(2)
 with col1:
     analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
     if analysis_choice == "Headline Analysis":
-        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(headline_analysis_options.keys()))
     else:
         upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
         images = []
