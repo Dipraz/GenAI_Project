@@ -26,40 +26,36 @@ def get_gemini_response(question):
 
 # Define Scoring Functions
 def calculate_image_quality_score(analysis_result, image_path):
-    # Use Laplacian variance for sharpness
     image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
     laplacian_var = cv2.Laplacian(image, cv2.CV_64F).var()
-    if laplacian_var > 300:  # This threshold is arbitrary and for demonstration; adjust based on your needs
-        return 5  # High sharpness
+    if laplacian_var > 300:
+        return 5
     elif laplacian_var > 100:
-        return 3  # Medium sharpness
+        return 3
     else:
-        return 1  # Low sharpness
+        return 1
 
 def calculate_accessibility_score(analysis_result, image_path):
-    # Placeholder logic: Check for brightness
     image = Image.open(image_path)
     stat = ImageStat.Stat(image)
-    brightness = stat.mean[0]  # Assuming a grayscale image; adjust if using color
-    if brightness > 192:  # Arbitrary thresholds; adjust based on your needs
-        return 5  # Bright image
+    brightness = stat.mean[0]
+    if brightness > 192:
+        return 5
     elif brightness > 128:
-        return 3  # Medium brightness
+        return 3
     else:
-        return 1  # Dark image
+        return 1
 
 def calculate_visual_hierarchy_score(analysis_result, image_path):
-    # Placeholder logic for demonstration; real logic would be more complex
-    # For now, random score as a placeholder
-    return random.randint(1, 5)  # Random score, replace with actual analysis
+    return random.randint(1, 5)
 
-def calculate_rating(analysis_result, image_path):  # Pass the image as an argument
+def calculate_rating(analysis_result, image_path):
     quality_score = calculate_image_quality_score(analysis_result, image_path)
     accessibility_score = calculate_accessibility_score(analysis_result, image_path)
     hierarchy_score = calculate_visual_hierarchy_score(analysis_result, image_path)
 
     overall_rating = (quality_score + accessibility_score + hierarchy_score) / 3
-    return round(overall_rating, 1)  # Round to one decimal for display
+    return round(overall_rating, 1)
 
 # Enhanced analyze_images function to include scoring
 def analyze_images(images, prompt):
@@ -68,15 +64,14 @@ def analyze_images(images, prompt):
     progress_step = 100 // len(images)
     for i, image in enumerate(images):
         with st.spinner(f"Analyzing image {i+1}..."):
-            # Save temporary image and use as input for model and analysis
             temp_img_path = f"temp_image_{i}.png"
             image.save(temp_img_path)
             response = vision_model.generate_content([prompt, Image.open(temp_img_path)])
             results.append(response.text)
-            rating = calculate_rating(response.text, temp_img_path)  # Pass the temporary image path here
+            rating = calculate_rating(response.text, temp_img_path)
             results.append(f"UX Design Rating: {rating}/5")
             progress_bar.progress(progress_step * (i + 1))
-            os.remove(temp_img_path)  # Clean up temporary file
+            os.remove(temp_img_path)
     return results
 
 # Define UX design prompt
@@ -90,22 +85,20 @@ st.set_page_config(
     page_icon=":art:",
     layout="wide"
 )
+
 # Theme customization
 st.markdown("""
 <style>
-/* Main background */
 .appview-container {
     background-color: #F8F8F8; 
 }
-/* Customize buttons */
 .stButton > button {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50; 
     color: white;
 }
 .stButton > button:hover {
     background-color: #3e8e41; 
 }
-/* Section headers */
 .st-ba { 
     background-color: #f0f2f6;
 }
@@ -116,15 +109,13 @@ st.markdown("""
 main_container = st.container()
 
 with main_container:
-    header_col1, header_col2 = st.columns([3, 1])  # Adjusted header column ratio
+    header_col1, header_col2 = st.columns([3, 1])
 
     with header_col1:
         st.title(":art: UX Design Assistant")
     with header_col2:
-        # Placeholder for your assistant's image, replace 'robot.jpg' with your image's path
         st.image("robot.jpg", caption="UX Design Assistant", width=150)
 
-    # Input Area
     user_question = st.text_input("You:", placeholder="Ask me anything about UX design...",
                                   help="Start a conversation with your AI design assistant",
                                   key="user_input")
@@ -135,33 +126,53 @@ with main_container:
             response_text = get_gemini_response(user_question)
         st.write("AI:", response_text)
 
-# --- IMAGE ANALYSIS FEATURES ---
+# Analysis Options
+analysis_options = { 
+    "Heuristic Evaluation": "Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues?",
+    "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
+    "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
+    "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
+    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design."
+}
+
+# Define Headline Analysis Options
+Headline_analysis_options = {
+    "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
+    "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
+    "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
+    "Emotional Appeal": "Does the headline evoke an emotional response or curiosity? Score (1-5): ",
+    "Uniqueness": "How unique or original is the headline? Score (1-5): ",
+    "Urgency and Curiosity": "Does the headline create a sense of urgency or curiosity? Score (1-5): ",
+    "Benefit Driven": "Does the headline convey a clear benefit or value to the reader? Score (1-5): ",
+    "Target Audience": "Is the headline tailored to resonate with the specific target audience? Score (1-5): ",
+    "Length and Format": "Is the headline of an appropriate length (6-12 words)? Score (1-5): ",
+    "Use of Numbers and Lists": "Does the headline use numbers or indicate a list effectively, if applicable? Score (1-5):",
+    "Brand Consistency": "Does the headline align with the overall brand tone and style? Score (1-5):",
+    "Use of Power Words": "Does the headline include power words or action verbs? Score (1-5):"
+}
+
+# Image Analysis Features
 st.header("Image Analysis")
 col1, col2 = st.columns(2)
 
 with col1:
-    analysis_options = { 
-        "Heuristic Evaluation": "Analyze the image against established UX heuristics (e.g., Nielsen's 10 Usability Heuristics). Highlight potential areas for improvement. Example Prompt: Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues?",
-        "Accessibility Analysis": "Assess the image for accessibility compliance (color contrast, alt-text, readability). Provide recommendations. Example Prompt: Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
-        "Visual Hierarchy Review": "Analyze the image's visual composition. Focus on the importance of design elements, guiding the user's eye. Example Prompt: Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
-        "Comparative Analysis": "Let the user upload two (or more) design variations. Analyze strengths/weaknesses, suggesting the superior version. Example Prompt: Compare these two design options. Which one is more successful based on [state a guiding principle, e.g., clarity, intuitiveness], and why?",
-        "Design Ideation": "Use the image as a starting point. Suggest alternative layouts, color palettes, typography, or interactions that could enhance the design. Example Prompt: Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
-        "Headline Analysis": "Analyze the headline for clarity, relevance, emotional appeal, keywords, and overall effectiveness. Example Prompt: I think this could work well as a headline prompt in order to score: Headline for Evaluation: [Insert Headline Here]"
-    }
-    input_prompt = st.selectbox("Select Analysis Type:", list(analysis_options.keys()))
-    upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
-    images = []
-    if upload_files:
-        for uploaded_file in upload_files:
-            image = Image.open(uploaded_file)
-            images.append(image)
-        if len(upload_files) > 1:
-            st.write("Image Gallery:")
-            cols = st.columns(len(upload_files))
-            for idx, uploaded_file in enumerate(upload_files):
-                cols[idx].image(uploaded_file, width=150)
-        else:
-            st.image(upload_files[0], caption="Uploaded Image", width=300)
+    analysis_choice = st.selectbox("Select Analysis Type:", list(analysis_options.keys()) + ["Headline Analysis"])
+    if analysis_choice == "Headline Analysis":
+        headline_option = st.selectbox("Select Headline Analysis Criterion:", list(Headline_analysis_options.keys()))
+    else:
+        upload_files = st.file_uploader("Upload UX Design Images:", type=["jpg", "jpeg", "png", "webp"], accept_multiple_files=True)
+        images = []
+        if upload_files:
+            for uploaded_file in upload_files:
+                image = Image.open(uploaded_file)
+                images.append(image)
+            if len(upload_files) > 1:
+                st.write("Image Gallery:")
+                cols = st.columns(len(upload_files))
+                for idx, uploaded_file in enumerate(upload_files):
+                    cols[idx].image(uploaded_file, width=150)
+            else:
+                st.image(upload_files[0], caption="Uploaded Image", width=300)
 
 with col2:
     input_text = st.text_area("Input Prompt:", height=150, help="Enter a custom analysis prompt or additional information.")
@@ -169,7 +180,7 @@ with col2:
     custom_analyze_button = st.button("Analyze Designs (Custom)")
 
     if analyze_button and images:
-        selected_prompt = analysis_options[input_prompt]
+        selected_prompt = analysis_options.get(analysis_choice, "")
         prompt = selected_prompt + " " + input_text if input_text else selected_prompt
         responses = analyze_images(images, prompt)
         st.subheader("Analysis Results:")
