@@ -132,7 +132,8 @@ analysis_options = {
     "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.",
     "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?",
     "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?",
-    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design."
+    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design.",
+    "Image Headline Analysis": "Analyze the effectiveness of image headlines."
 }
 
 # Define Headline Analysis Options
