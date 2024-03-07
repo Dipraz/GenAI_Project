@@ -136,7 +136,7 @@ analysis_options = {
 }
 
 # Define Headline Analysis Options
-Headline_analysis_options = {
+analysis_options = {
     "Clarity and Conciseness": "Does the headline clearly and concisely convey the main point of the blog? Score (1-5): ",
     "Relevance and Accuracy": "How accurately does the headline reflect the content of the blog? Score (1-5): ",
     "Use of Keywords": "Are relevant keywords included in the headline for SEO purposes? Do these keywords fit naturally? Score (1-5): ",
