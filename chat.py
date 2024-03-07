@@ -145,11 +145,11 @@ with main_container:
 
 # Analysis Options and Headline Analysis Options
 analysis_options = { 
-    "Heuristic Evaluation": "Evaluate this design based on Nielsen's usability heuristics. Where does it succeed, and where might there be issues? providing a Score (1-5): and Explanation based on score:",
-    "Accessibility Analysis": "Are there any elements in this design that might create accessibility barriers? Suggest improvements for inclusivity.providing a Score (1-5): and Explanation based on score:",
-    "Visual Hierarchy Review": "Determine the visual hierarchy of this design. Does it effectively guide the user's attention to the most important aspects?providing a Score (1-5): and Explanation based on score:",
-    "Comparative Analysis": "Compare these two design options. Which one is more successful based on clarity, intuitiveness, and why?providing a Score (1-5): and Explanation based on score:",
-    "Design Ideation": "Brainstorm ideas to improve the visual appeal and overall user experience of this design. providing a Score (1-5): and Explanation based on score:",
+    "Heuristic Evaluation": "Analyze this design according to Nielsen's usability heuristics. Focus specifically on [heuristic name, e.g., 'error prevention']. Provide a score (1-5) and a detailed explanation based on the score. Also, suggest one actionable improvement.",
+    "Accessibility Analysis": "Analyze this design for accessibility issues, particularly those that might affect people with visual impairments. Provide a score (1-5) and an explanation. Give 2-3 specific examples of potential barriers and how to make them more inclusive.",
+    "Visual Hierarchy Review": "Assess the visual hierarchy of this design. Does it guide the user's eye from the most important element to the least important? Provide a score (1-5) with an explanation. Suggest 2 changes to improve the hierarchy.",
+    "Comparative Analysis": "Compare design option A [Image A] and design option B [Image B]. Evaluate them based on clarity and intuitiveness. Provide a score (1-5) for each, and explain why you chose those scores.",
+    "Design Ideation": "Generate 3 ideas to improve the visual appeal of this design while maintaining its core functionality. Consider using [a specific style or trend, e.g., 'bold color blocking']. Provide a brief explanation for each idea.",
     "Image Headline Analysis": """Image Headline Analysis
 Headline for Evaluation: [Insert Headline Here]
 
