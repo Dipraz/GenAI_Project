@@ -154,7 +154,7 @@ analysis_options = {
 
 **Headline for Evaluation:** [Insert Headline Here]
 
-**Analyze the following aspects, providing a score and explanation for each:**
+**Analyze the following aspects, providing a score and explanation for each points:**
 
 * **Clarity and Conciseness:** Is the headline immediately understandable? Can the main point be grasped at a glance?
     * **Score (1-5):** 
@@ -194,7 +194,7 @@ analysis_options = {
 
 **Overall Assessment:** Summarize strengths and weaknesses. Provide specific recommendations to make the headline more effective, appealing, and optimized. 
 **Summary:** [Provide a short summary based on your all analysis and areas for improvement based on the scores. Offer specific suggestions for strengthening the headline.] 
-**Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline."""
+**Note:** If a point is not applicable to the image, the model should respond with "Score (N/A): Not applicable for this headline" and still provide a short explanation as to why it's not applicable."""
 }
 
 image_headline_analysis_options = {
