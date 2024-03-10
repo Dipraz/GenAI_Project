@@ -16,7 +16,7 @@ def get_gemini_response(input, image):
     return response.text
 
 def handle_button_click(prompt, image):
-    model = genai.GenerativeModel('gemini-pro')
+    model = genai.GenerativeModel('gemini-pro-vision')
     response = None  # Initialize response as None
 
     try:
@@ -48,7 +48,7 @@ def handle_button_click(prompt, image):
         else:
             return "Invalid prompt selected. Please choose a valid option."
     except Exception as e:
-        return f"An error occurred: {str(e)}"
+        return f"An error occurred: {str(e)}"  # Print out the exception message
 
     return response.text if response else "No response generated for this prompt."
 
