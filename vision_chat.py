@@ -20,19 +20,34 @@ def handle_button_click(prompt, image):
     response = None  # Initialize response as None
 
     if prompt == "General Analysis":
-        response = model.generate_content(["Identify and describe everything and every words you see in this image.", image])
+        if image:  # Check if image is not empty
+            response = model.generate_content(["Identify and describe everything and every words you see in this image.", image])
+        else:
+            return "Please upload an image for analysis."
     elif prompt == "Disease Identification":
-        response = model.generate_content(["Identify the disease or medical condition shown in the image, if any.", image])
+        if image:  # Check if image is not empty
+            response = model.generate_content(["Identify the disease or medical condition shown in the image, if any.", image])
+        else:
+            return "Please upload an image for analysis."
     elif prompt == "Personalized Diet Plans Based on Bangladeshi Foods":
-        response = model.generate_content(["Generate a personalized diet plan incorporating Bangladeshi foods based on the depicted health condition or dietary requirements in the image.", image])
+        if image:  # Check if image is not empty
+            response = model.generate_content(["Generate a personalized diet plan incorporating Bangladeshi foods based on the depicted health condition or dietary requirements in the image.", image])
+        else:
+            return "Please upload an image for analysis."
     elif prompt == "Health Tips and Lifestyle Recommendations":
-        response = model.generate_content(["Offer health tips and lifestyle recommendations suitable for the observed health scenario in the image.", image])
+        if image:  # Check if image is not empty
+            response = model.generate_content(["Offer health tips and lifestyle recommendations suitable for the observed health scenario in the image.", image])
+        else:
+            return "Please upload an image for analysis."
     elif prompt == "Medicine Information":
-        response = model.generate_content(["Provide information about Medicine Information such as indication, dosages, side effects, and medications or treatments related to the health issue depicted in the image.", image])
+        if image:  # Check if image is not empty
+            response = model.generate_content(["Provide information about Medicine Information such as indication, dosages, side effects, and medications or treatments related to the health issue depicted in the image.", image])
+        else:
+            return "Please upload an image for analysis."
     else:
         return "Invalid prompt selected. Please choose a valid option."
 
-    return response if response else "No response generated for this prompt."
+    return response.text if response else "No response generated for this prompt."
 
 def start_gemini_chat(history=[]):
     model = genai.GenerativeModel('gemini-pro')
