@@ -6,3 +6,12 @@ opencv-python-headless
 streamlit
 pillow
 numpy
+
+streamlit
+langchain
+langchain-community
+langchain-core
+langchain-openai
+mysql-connector-python
+groq
+langchain-groq
