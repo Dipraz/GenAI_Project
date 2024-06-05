@@ -7,11 +7,17 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_openai import ChatOpenAI
 from langchain_groq import ChatGroq
 import streamlit as st
+import sqlalchemy.exc
 
 # Database Initialization
 def init_database(user: str, password: str, host: str, port: str, database: str) -> SQLDatabase:
     db_uri = f"mysql+mysqlconnector://{user}:{password}@{host}:{port}/{database}"
-    return SQLDatabase.from_uri(db_uri)
+    try:
+        db = SQLDatabase.from_uri(db_uri)
+        return db
+    except sqlalchemy.exc.DatabaseError as e:
+        st.error(f"Failed to connect to the database: {e}")
+        return None
 
 # SQL Chain Generation
 def get_sql_chain(db: SQLDatabase):
@@ -88,23 +94,24 @@ def main():
         st.subheader("Settings")
         st.write("This is a simple chat application using MySQL. Connect to the database and start chatting.")
     
-        st.text_input("Host", value="localhost", key="Host")
-        st.text_input("Port", value="3306", key="Port")
-        st.text_input("User", value="root", key="User")
-        st.text_input("Password", type="password", value="admin", key="Password")
-        st.text_input("Database", value="Chinook", key="Database")
+        host = st.text_input("Host", value="localhost", key="Host")
+        port = st.text_input("Port", value="3306", key="Port")
+        user = st.text_input("User", value="root", key="User")
+        password = st.text_input("Password", type="password", value="admin", key="Password")
+        database = st.text_input("Database", value="Chinook", key="Database")
     
         if st.button("Connect"):
             with st.spinner("Connecting to database..."):
                 db = init_database(
-                    st.session_state["User"],
-                    st.session_state["Password"],
-                    st.session_state["Host"],
-                    st.session_state["Port"],
-                    st.session_state["Database"]
+                    user,
+                    password,
+                    host,
+                    port,
+                    database
                 )
-                st.session_state.db = db
-                st.success("Connected to database!")
+                if db:
+                    st.session_state.db = db
+                    st.success("Connected to database!")
 
     # Chat History Initialization
     if "chat_history" not in st.session_state:
